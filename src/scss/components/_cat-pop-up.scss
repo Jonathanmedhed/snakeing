@@ -1,0 +1,36 @@
+.cat-popup {
+  .cat-popup__container {
+    position: relative;
+    min-width: 2rem;
+    .cat {
+      position: absolute;
+      bottom: 0;
+      max-width: 1.5rem;
+      z-index: 1;
+      object-fit: cover;
+      opacity: 0;
+      transition: all 0.5s ease-in;
+      transition: all 0.5s ease-out;
+    }
+    .barrel {
+      position: absolute;
+      max-width: 1rem;
+      bottom: 0;
+      left: 0;
+      z-index: 2;
+      opacity: 0.9;
+    }
+  }
+  &.--pop {
+    .cat-popup__container {
+      min-width: 1.5rem;
+      .cat {
+        max-width: 1rem;
+        &.--meow {
+          bottom: 1.3rem;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

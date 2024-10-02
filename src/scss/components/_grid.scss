@@ -1,0 +1,26 @@
+.grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 1px red;
+  &__container {
+    width: 50rem;
+    height: 50rem;
+    display: flex;
+    flex-direction: column;
+    border: solid 1px green;
+  }
+  &__row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  &__cell {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: solid 1px black;
+    &.--active {
+      background-color: black;
+    }
+  }
+}

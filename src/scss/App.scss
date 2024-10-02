@@ -1,0 +1,195 @@
+@import "config";
+@import "utilities";
+@import "./components/grid";
+
+/** Main Config */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: #333;
+  // Scrollbar
+  scrollbar-width: thin;
+  scrollbar-color: $primary-color $white-color;
+  min-height: 100vh;
+  width: 100vw;
+  &::-webkit-scrollbar {
+    width: 1rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $white-dark-color;
+    border-radius: 0.2rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $primary-color;
+    border-radius: 6px;
+    border: 1px solid $white-color;
+  }
+}
+a {
+  text-decoration: none; //remove underline
+  cursor: pointer;
+  color: black;
+  font-weight: bold;
+}
+ul {
+  list-style: none; //remove bullet points
+}
+img {
+  width: 100%; //take full width of container
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: solid 1px $gray-color;
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  background-color: $gray-light-color;
+  outline: none;
+}
+
+.react-input-emoji--container {
+  padding-left: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background-color: $white-color !important;
+  margin-top: 0.5rem !important;
+}
+
+.react-input-emoji--input {
+  padding: 0.5rem 0 !important;
+}
+
+.react-input-emoji--placeholder {
+  left: 0 !important;
+}
+
+.react-input-emoji--button {
+  padding: 0 0 0 0.5rem !important;
+}
+
+.react-input-emoji--container {
+  margin: 0 !important;
+}
+
+button {
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: $instagram-color;
+  color: $white-color;
+  font-weight: bold;
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+.link-component {
+  z-index: 1000;
+  a,
+  span {
+    min-height: 100%;
+    z-index: 2;
+  }
+}
+
+.selector {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: solid 1px $gray-dark-color;
+  cursor: pointer;
+  &:active {
+    opacity: 0.8;
+  }
+  &.--selected {
+    border: solid 1px $blue-color;
+    background-color: $blue-color;
+  }
+}
+
+.prof-btn {
+  color: $white-dark-color;
+  font-size: 1.2rem;
+  line-height: 1.3rem;
+}
+
+/*****************************************************************************************************
+* Display 
+*****************************************************************************************************/
+
+.--hide {
+  display: none;
+}
+
+.--show-sm {
+  &-md,
+  &-md-up,
+  &-lg {
+    display: none;
+  }
+}
+
+@media (min-width: $width-md) {
+  .--show {
+    &-md {
+      display: flex;
+    }
+    &-md-up {
+      display: flex;
+    }
+    &-lg {
+      display: none;
+    }
+    &-sm {
+      display: none;
+    }
+  }
+}
+@media (min-width: $width-lg) {
+  .--show {
+    &-md {
+      display: none;
+    }
+    &-md-up {
+      display: flex;
+    }
+    &-lg {
+      display: flex;
+    }
+    &-sm {
+      display: none;
+    }
+  }
+}
+
+@media (min-width: $width-xl) {
+  .--hide-xl {
+    display: none;
+  }
+}
+
+.imgToLoad {
+  width: 0px;
+  height: 0px;
+  position: absolute;
+}
+
+/*****************************************************************************************************
+* Position 
+*****************************************************************************************************/
+
+.--relative {
+  position: relative;
+}

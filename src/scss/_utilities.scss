@@ -1,0 +1,1024 @@
+@import 'config';
+
+/** Backgrounds */
+.--bg {
+  &-blue {
+    @include set-background($blue-color);
+  }
+  &-primary {
+    @include set-background($primary-color);
+  }
+  &-light {
+    @include set-background($light-color);
+  }
+  &-dark {
+    @include set-background($dark-color);
+  }
+  &-caution {
+    @include set-background($caution-color);
+  }
+  &-caution-dark {
+    @include set-background($caution-dark-color);
+  }
+  &-caution-light {
+    @include set-background($caution-light-color);
+  }
+  &-danger {
+    @include set-background($danger-color);
+  }
+  &-danger-dark {
+    @include set-background($danger-dark-color);
+  }
+  &-danger-light {
+    @include set-background($danger-light-color);
+  }
+  &-success {
+    @include set-background($success-color);
+  }
+  &-success-dark {
+    @include set-background($success-dark-color);
+  }
+  &-success-light {
+    @include set-background($success-light-color);
+  }
+  &-white {
+    @include set-background($white-color);
+  }
+  &-white-dark {
+    @include set-background($white-dark-color);
+  }
+  &-white-light {
+    @include set-background($white-light-color);
+  }
+  &-facebook {
+    @include set-background($facebook-color);
+  }
+  &-email {
+    @include set-background($email-color);
+  }
+  &-instagram {
+    @include set-background($instagram-color);
+  }
+  &-linkedin {
+    @include set-background($linkedin-color);
+  }
+  &-magenta {
+    @include set-background($magenta-color);
+  }
+  &-phone {
+    @include set-background($phone-color);
+  }
+  &-twitter {
+    @include set-background($twitter-color);
+  }
+  &-youtube {
+    @include set-background($youtube-color);
+  }
+}
+
+/** Borders */
+.border {
+  &-primary {
+    border: solid 2px $primary-color;
+  }
+  &-dark {
+    border: solid 2px $dark-color;
+  }
+  &-light {
+    border: solid 2px $light-color;
+  }
+  &-caution {
+    border: solid 2px $caution-color;
+  }
+  &-caution-dark {
+    border: solid 2px $caution-dark-color;
+  }
+  &-caution-light {
+    border: solid 2px $caution-light-color;
+  }
+  &-danger {
+    border: solid 2px $danger-color;
+  }
+  &-danger-dark {
+    border: solid 2px $danger-dark-color;
+  }
+  &-danger-light {
+    border: solid 2px $danger-light-color;
+  }
+  &-success {
+    border: solid 2px $success-color;
+  }
+  &-success-dark {
+    border: solid 2px $success-dark-color;
+  }
+  &-success-light {
+    border: solid 2px $success-light-color;
+  }
+  &-white {
+    border: solid 2px $white-color;
+  }
+  &-white-dark {
+    border: solid 2px $white-dark-color;
+  }
+  &-white-light {
+    border: solid 2px $white-light-color;
+  }
+  &-facebook {
+    border: solid 2px $facebook-color;
+  }
+  &-email {
+    border: solid 2px $email-color;
+  }
+  &-instagram {
+    border: solid 2px $instagram-color;
+  }
+  &-linkedin {
+    border: solid 2px $linkedin-color;
+  }
+  &-phone {
+    border: solid 2px $phone-color;
+  }
+  &-twitter {
+    border: solid 2px $twitter-color;
+  }
+  &-youtube {
+    border: solid 2px $youtube-color;
+  }
+}
+
+/** Color */
+.--color {
+  &-primary {
+    color: $primary-color;
+  }
+  &-dark {
+    color: $dark-color;
+  }
+  &-gray {
+    color: $gray-color;
+  }
+  &-gray-dark {
+    color: $gray-dark-color;
+  }
+  &-gray-darker {
+    color: $gray-darker-color;
+  }
+  &-gray {
+    color: $gray-color;
+  }
+  &-light {
+    color: $light-color;
+  }
+  &-caution {
+    color: $caution-color;
+  }
+  &-caution-dark {
+    color: $caution-dark-color;
+  }
+  &-caution-light {
+    color: $caution-light-color;
+  }
+  &-danger {
+    color: $danger-color;
+  }
+  &-danger-dark {
+    color: $danger-dark-color;
+  }
+  &-danger-light {
+    color: $danger-light-color;
+  }
+  &-success {
+    color: $success-color;
+  }
+  &-success-dark {
+    color: $success-dark-color;
+  }
+  &-success-light {
+    color: $success-light-color;
+  }
+  &-white {
+    color: $white-color;
+  }
+  &-white-dark {
+    color: $white-dark-color;
+  }
+  &-white-light {
+    color: $white-light-color;
+  }
+  &-facebook {
+    color: $facebook-color;
+  }
+  &-email {
+    color: $email-color;
+  }
+  &-instagram {
+    color: $instagram-color;
+  }
+  &-linkedin {
+    color: $linkedin-color;
+  }
+  &-phone {
+    color: $phone-color;
+  }
+  &-purple {
+    color: $purple-color;
+  }
+  &-twitter {
+    color: $twitter-color;
+  }
+  &-youtube {
+    color: $youtube-color;
+  }
+}
+
+/** Buttons */
+.btn {
+  display: inline-block;
+  color: #333;
+  padding: 0.3rem 1.2rem;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  outline: none;
+  transition: all 0.2s ease-in; //add slow effect when highlighting on hover
+
+  &.--primary {
+    border: solid 2px $primary-color;
+    @include set-background($primary-color);
+    &:hover {
+      background: lighten($primary-color, 5%);
+    }
+  }
+  &.--purple {
+    border: solid 2px $purple-color;
+    @include set-background($purple-color);
+    &:hover {
+      background: lighten($purple-color, 5%);
+    }
+  }
+  &.--reverse {
+    border: solid 2px $primary-color;
+    @include set-background($white-color);
+    &:hover {
+      background: lighten($white-color, 5%);
+    }
+  }
+  &.--dark {
+    border: solid 2px $dark-color;
+    @include set-background($dark-color);
+    &:hover {
+      background: lighten($dark-color, 5%);
+    }
+  }
+  &.--light {
+    border: solid 2px $light-color;
+    @include set-background($light-color);
+    &:hover {
+      background: lighten($light-color, 5%);
+    }
+  }
+  &.--caution {
+    border: solid 2px $caution-color;
+    @include set-background($caution-color);
+    &:hover {
+      background: lighten($caution-color, 5%);
+    }
+  }
+  &.--caution-dark {
+    border: solid 2px $caution-dark-color;
+    @include set-background($caution-dark-color);
+    &:hover {
+      background: lighten($caution-dark-color, 5%);
+    }
+  }
+  &.--caution-light {
+    border: solid 2px $caution-light-color;
+    @include set-background($caution-light-color);
+    &:hover {
+      background: lighten($caution-light-color, 5%);
+    }
+  }
+  &.--danger {
+    border: solid 2px $danger-color;
+    @include set-background($danger-color);
+    &:hover {
+      background: lighten($danger-color, 5%);
+    }
+  }
+  &.--danger-dark {
+    border: solid 2px $danger-dark-color;
+    @include set-background($danger-dark-color);
+    &:hover {
+      background: lighten($danger-dark-color, 5%);
+    }
+  }
+  &.--danger-light {
+    border: solid 2px $danger-light-color;
+    @include set-background($danger-light-color);
+    &:hover {
+      background: lighten($danger-light-color, 5%);
+    }
+  }
+  &.--disabled {
+    border: solid 2px $gray-color;
+    background-color: $gray-color;
+    @include set-background($gray-color);
+    cursor: default;
+  }
+  &.--gray {
+    border: solid 2px $gray-color;
+    @include set-background($gray-color);
+    &:hover {
+      cursor: auto;
+    }
+  }
+  &.--success {
+    border: solid 2px $success-color;
+    @include set-background($success-color);
+    &:hover {
+      background: lighten($success-color, 5%);
+    }
+  }
+  &.--success-dark {
+    border: solid 2px $success-dark-color;
+    @include set-background($success-dark-color);
+    &:hover {
+      background: lighten($success-dark-color, 5%);
+    }
+  }
+  &.--success-light {
+    border: solid 2px $success-light-color;
+    @include set-background($success-light-color);
+    &:hover {
+      background: lighten($success-light-color, 5%);
+    }
+  }
+  &.--white {
+    border: solid 2px $white-color;
+    @include set-background($white-color);
+    &:hover {
+      background: lighten($white-color, 5%);
+    }
+  }
+  &.--white-dark {
+    border: solid 2px $white-dark-color;
+    @include set-background($white-dark-color);
+    &:hover {
+      background: lighten($white-dark-color, 5%);
+    }
+  }
+  &.--white-light {
+    border: solid 2px $white-light-color;
+    @include set-background($white-light-color);
+    &:hover {
+      background: lighten($white-light-color, 5%);
+    }
+  }
+  &.--facebook {
+    border: solid 2px $facebook-color;
+    @include set-background($facebook-color);
+    &:hover {
+      background: lighten($facebook-color, 5%);
+    }
+  }
+  &.--email {
+    border: solid 2px $email-color;
+    @include set-background($email-color);
+    &:hover {
+      background: lighten($email-color, 5%);
+    }
+  }
+  &.--instagram {
+    border: solid 2px $instagram-color;
+    @include set-background($instagram-color);
+    &:hover {
+      background: lighten($instagram-color, 5%);
+    }
+  }
+  &.--linkedin {
+    border: solid 2px $linkedin-color;
+    @include set-background($linkedin-color);
+    &:hover {
+      background: lighten($linkedin-color, 5%);
+    }
+  }
+  &.--phone {
+    border: solid 2px $phone-color;
+    @include set-background($phone-color);
+    &:hover {
+      background: lighten($phone-color, 5%);
+    }
+  }
+  &.--twitter {
+    border: solid 2px $twitter-color;
+    @include set-background($twitter-color);
+    &:hover {
+      background: lighten($twitter-color, 5%);
+    }
+  }
+  &.--youtube {
+    border: solid 2px $youtube-color;
+    @include set-background($youtube-color);
+    &:hover {
+      background: lighten($youtube-color, 5%);
+    }
+  }
+  &:active {
+    padding: 0.3rem 0.9rem;
+    border: solid 2px $white-light-color;
+  }
+}
+
+/** Buttons icon only */
+.--icon {
+  display: inline-block;
+  color: #333;
+  padding: 0.4rem 0.4rem;
+  border: none;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  outline: none;
+  transition: all 0.2s ease-in; //add slow effect when highlighting on hover
+
+  &.--primary {
+    @include set-background($primary-color);
+    &:hover {
+      background: lighten($primary-color, 5%);
+    }
+  }
+  &.--dark {
+    @include set-background($dark-color);
+    &:hover {
+      background: lighten($dark-color, 5%);
+    }
+  }
+  &.--light {
+    @include set-background($light-color);
+    &:hover {
+      background: lighten($light-color, 5%);
+    }
+  }
+  &.--caution {
+    @include set-background($caution-color);
+    &:hover {
+      background: lighten($caution-color, 5%);
+    }
+  }
+  &.--caution-dark {
+    @include set-background($caution-dark-color);
+    &:hover {
+      background: lighten($caution-dark-color, 5%);
+    }
+  }
+  &.--caution-light {
+    @include set-background($caution-light-color);
+    &:hover {
+      background: lighten($caution-light-color, 5%);
+    }
+  }
+  &.--danger {
+    @include set-background($danger-color);
+    &:hover {
+      background: lighten($danger-color, 5%);
+    }
+  }
+  &.--danger-dark {
+    @include set-background($danger-dark-color);
+    &:hover {
+      background: lighten($danger-dark-color, 5%);
+    }
+  }
+  &.--danger-light {
+    @include set-background($danger-light-color);
+    &:hover {
+      background: lighten($danger-light-color, 5%);
+    }
+  }
+  &.--success {
+    @include set-background($success-color);
+    &:hover {
+      background: lighten($success-color, 5%);
+    }
+  }
+  &.--success-dark {
+    @include set-background($success-dark-color);
+    &:hover {
+      background: lighten($success-dark-color, 5%);
+    }
+  }
+  &.--success-light {
+    @include set-background($success-light-color);
+    &:hover {
+      background: lighten($success-light-color, 5%);
+    }
+  }
+  &.--white {
+    @include set-background($white-color);
+    &:hover {
+      background: lighten($white-color, 5%);
+    }
+  }
+  &.--white-dark {
+    @include set-background($white-dark-color);
+    &:hover {
+      background: lighten($white-dark-color, 5%);
+    }
+  }
+  &.--white-light {
+    @include set-background($white-light-color);
+    &:hover {
+      background: lighten($white-light-color, 5%);
+    }
+  }
+  &.--facebook {
+    @include set-background($facebook-color);
+    &:hover {
+      background: lighten($facebook-color, 5%);
+    }
+  }
+  &.--email {
+    @include set-background($email-color);
+    &:hover {
+      background: lighten($email-color, 5%);
+    }
+  }
+  &.--instagram {
+    @include set-background($instagram-color);
+    &:hover {
+      background: lighten($instagram-color, 5%);
+    }
+  }
+  &.--linkedin {
+    @include set-background($linkedin-color);
+    &:hover {
+      background: lighten($linkedin-color, 5%);
+    }
+  }
+  &.--phone {
+    @include set-background($phone-color);
+    &:hover {
+      background: lighten($phone-color, 5%);
+    }
+  }
+  &.--twitter {
+    @include set-background($twitter-color);
+    &:hover {
+      background: lighten($twitter-color, 5%);
+    }
+  }
+  &.--youtube {
+    @include set-background($youtube-color);
+    &:hover {
+      background: lighten($youtube-color, 5%);
+    }
+  }
+  &:active {
+    padding: 0.3rem 0.9rem;
+    //margin-right: 1.3rem;
+  }
+}
+
+/** Container */
+.container {
+  max-width: $max-width;
+  margin: auto;
+  overflow: hidden;
+}
+
+/** Display */
+
+/** Align self */
+
+.--row {
+  display: flex;
+  flex-direction: row;
+}
+.--column {
+  display: flex;
+  flex-direction: column;
+}
+.--self-center {
+  display: flex;
+  align-self: center;
+}
+.--self-left {
+  display: flex;
+  align-self: left;
+}
+.--self-right {
+  display: flex;
+  align-self: right;
+}
+
+/** Align items*/
+.--align-items-center {
+  display: flex;
+  align-items: center;
+}
+.--align-items-left {
+  display: flex;
+  align-items: left;
+}
+.--align-items-right {
+  display: flex;
+  align-items: right;
+}
+
+/** Justify items*/
+.--just-items-center {
+  display: flex;
+  justify-content: center;
+}
+.--just-items-left {
+  display: flex;
+  justify-content: left;
+}
+.--just-items-right {
+  display: flex;
+  justify-content: right;
+}
+.--just-items-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+/*****************************************************************************************************
+* Display
+*****************************************************************************************************/
+
+/** Hide or Show Elements */
+.hide {
+  display: none;
+}
+
+.hide-sm {
+  display: unset;
+}
+
+.show-sm {
+  display: none;
+}
+
+.show-landscape {
+  display: none;
+}
+.hide-landscape {
+  display: inline;
+}
+.show-portrait {
+  display: none;
+}
+.hide-portrait {
+  display: inline;
+}
+
+/** FlexGrid */
+
+/* Row */
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  &.dir-rev {
+    flex-direction: row-reverse;
+  }
+  .box {
+    text-align: center;
+    padding: 1rem;
+    margin: 0.1rem;
+  }
+  .col {
+    width: 100%;
+  }
+  .col-1 {
+    width: 8.33%;
+  }
+
+  .col-2 {
+    width: 16.66%;
+  }
+
+  .col-3 {
+    width: 25%;
+  }
+
+  .col-4 {
+    width: 33.33%;
+  }
+
+  .col-5 {
+    width: 41.66%;
+  }
+
+  .col-6 {
+    width: 50%;
+  }
+
+  .col-7 {
+    width: 58.33%;
+  }
+
+  .col-8 {
+    width: 66.66%;
+  }
+
+  .col-9 {
+    width: 75%;
+  }
+
+  .col-10 {
+    width: 83.33%;
+  }
+
+  .col-11 {
+    width: 91.66%;
+  }
+
+  .col-12 {
+    width: 100%;
+  }
+
+  /* Responsive */
+
+  .col-12.lg-1 {
+    width: 8.33%;
+  }
+
+  .col-12.lg-2 {
+    width: 16.66%;
+  }
+
+  .col-12.lg-3 {
+    width: 25%;
+  }
+
+  .col-12.lg-4 {
+    width: 33.33%;
+  }
+
+  .col-12.lg-5 {
+    width: 41.66%;
+  }
+
+  .col-12.lg-6 {
+    width: 50%;
+  }
+
+  .col-12.lg-7 {
+    width: 58.33%;
+  }
+
+  .col-12.lg-8 {
+    width: 66.66%;
+  }
+
+  .col-12.lg-9 {
+    width: 75%;
+  }
+
+  .col-12.lg-10 {
+    width: 83.33%;
+  }
+
+  .col-12.lg-11 {
+    width: 91.66%;
+  }
+
+  .col-12.lg-12 {
+    width: 100%;
+  }
+  /* Column */
+
+  &.dir-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .col {
+      text-align: center;
+      max-width: 10rem;
+    }
+  }
+  &.dir-col-rev {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    .col {
+      text-align: center;
+      max-width: 10rem;
+    }
+  }
+}
+
+/************************************************************************************************************
+Hover 
+************************************************************************************************************/
+.--pointer {
+  &:hover,
+  &:active {
+    cursor: pointer;
+  }
+}
+
+/************************************************************************************************************
+Icons 
+************************************************************************************************************/
+.social-buttons {
+  margin-top: 0.2rem;
+  a {
+    margin: 0 0.2rem 0 0.2rem;
+  }
+  i {
+    color: $white-color;
+    padding: 0.5rem;
+    border-radius: 50%;
+    margin: 0 0.2rem 0 0.2rem;
+    &:last-child {
+      margin: 0;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+    &.fa-twitter {
+      background-color: $twitter-color;
+      &.dark {
+        background-color: $gray-color;
+      }
+    }
+    &.fa-twitter:hover {
+      background: lighten($twitter-color, 10%);
+    }
+    &.fa-facebook {
+      background-color: $facebook-color;
+      &.dark {
+        background-color: $gray-color;
+      }
+    }
+    &.fa-facebook:hover {
+      background: lighten($facebook-color, 10%);
+    }
+    &.fa-envelope {
+      background-color: $email-color;
+      &.dark {
+        background-color: $gray-color;
+      }
+    }
+    &.fa-envelope:hover {
+      background: lighten($email-color, 10%);
+    }
+    &.fa-instagram {
+      background-color: $instagram-color;
+      &.dark {
+        background-color: $gray-color;
+      }
+    }
+    &.fa-instagram:hover {
+      background: lighten($instagram-color, 10%);
+    }
+    &.fa-youtube {
+      background-color: $youtube-color;
+      &.dark {
+        background-color: $gray-color;
+      }
+    }
+    &.fa-youtube:hover {
+      background: lighten($youtube-color, 10%);
+    }
+    &.fa-linkedin-in {
+      background-color: $linkedin-color;
+      &.dark {
+        background-color: $gray-color;
+      }
+    }
+    &.fa-linkedin-in:hover {
+      background: lighten($linkedin-color, 10%);
+    }
+    &.fa-amazon {
+      background-color: gold;
+      &.dark {
+        background-color: $gray-color;
+      }
+    }
+    &.fa-amazon:hover {
+      background: lighten(gold, 15%);
+    }
+  }
+}
+
+/*************************************************************************************************************
+Images 
+*************************************************************************************************************/
+
+/** Overlay */
+.img-overlay {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  opacity: 0.8;
+}
+/** Dark Opacity for img */
+.opacity {
+  opacity: 0.7;
+  background-color: black;
+}
+
+/** Positioning */
+.relative {
+  position: relative;
+}
+.horizontal {
+  display: flex;
+  flex-direction: row;
+}
+.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+/************************************************************************************************************
+ Text Styles 
+ ************************************************************************************************************/
+.--uppercase {
+  text-transform: uppercase;
+}
+/** Aligment */
+.--text-center {
+  text-align: center;
+}
+/** Color */
+.--text {
+  &-primary {
+    color: $primary-color;
+  }
+  &-black {
+    color: black;
+  }
+  &-dark {
+    color: $dark-color;
+  }
+  &-light {
+    color: $light-color;
+  }
+  &-caution {
+    color: $caution-color;
+  }
+  &-caution-dark {
+    color: $caution-dark-color;
+  }
+  &-caution-light {
+    color: $caution-light-color;
+  }
+  &-danger {
+    color: $danger-color;
+  }
+  &-danger-dark {
+    color: $danger-dark-color;
+  }
+  &-danger-light {
+    color: $danger-light-color;
+  }
+  &-purple {
+    color: $purple-color;
+  }
+  &-magenta {
+    color: $magenta-color;
+  }
+  &-success {
+    color: $success-color;
+  }
+  &-success-dark {
+    color: $success-dark-color;
+  }
+  &-success-light {
+    color: $success-light-color;
+  }
+  &-white {
+    color: $white-color;
+  }
+  &-white-dark {
+    color: $white-dark-color;
+  }
+  &-white-light {
+    color: $white-light-color;
+  }
+}
+/** Size */
+.x-large {
+  font-size: 4rem;
+  line-height: 1.2;
+}
+.large {
+  font-size: 3rem;
+  line-height: 1.2;
+}
+.lead {
+  font-size: 1.5rem;
+}
+
+/** Weight */
+.--bold {
+  font-weight: bold;
+}

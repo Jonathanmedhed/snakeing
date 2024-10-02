@@ -1,0 +1,282 @@
+/** Width */
+$width-sm: 401px;
+$width-md: 641px;
+$width-lg: 1008px;
+$width-xl: 1600px;
+/** Colors */
+/** Main Color Scheme */
+$green-color: #10a788;
+$blue-color: rgb(0, 149, 246);
+$purple-color: #784cc7;
+$magenta-color: #25b8cc;
+$gray-darker-color: rgb(124, 124, 124);
+$gray-dark-color: rgb(151, 151, 151);
+$gray-light-color: rgb(249, 249, 249);
+$gray-color: rgb(225, 225, 225);
+$primary-color: white;
+$light-color: white;
+$dark-color: white;
+$text-color: #b6b6b6;
+/** Other Color Scheme */
+$caution-color: #c7ca1f;
+$caution-dark-color: #a1a319;
+$caution-light-color: #e1e423;
+$danger-color: #dc3545;
+$danger-dark-color: #b92d3b;
+$danger-light-color: #ee394b;
+$default-color: rgb(204, 204, 204);
+$font-color: #333;
+$success-color: #28a745;
+$success-dark-color: #1f8537;
+$success-light-color: #32ce56;
+$white-color: rgb(255, 255, 255);
+$white-dark-color: rgb(247, 247, 247);
+$white-light-color: rgb(255, 255, 255);
+$facebook-color: #3b5998;
+$email-color: orange;
+$instagram-color: #0095f6;
+$linkedin-color: #0077b5;
+$phone-color: #25d366;
+$twitter-color: #38a1f3;
+$youtube-color: #c4302b;
+
+/** Color Functions */
+/** Set text color based on background */
+@function set-text-color($color) {
+  @if (lightness($color) > 60) {
+    @return #333;
+  } @else {
+    @return #fff;
+  }
+}
+/** Set background and text color */
+@mixin set-background($color) {
+  background-color: $color;
+  color: set-text-color($color);
+}
+
+/** Font Size */
+$sizeamounts: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+@each $size in $sizeamounts {
+  .f-#{$size} {
+    font-size: #{$size}rem;
+  }
+}
+.--font {
+  &-90 {
+    font-size: 0.9rem;
+  }
+  &-80 {
+    font-size: 0.8rem;
+  }
+  &-70 {
+    font-size: 0.7rem;
+  }
+  &-60 {
+    font-size: 0.6rem;
+  }
+  &-50 {
+    font-size: 0.5rem;
+  }
+  &-40 {
+    font-size: 0.4rem;
+  }
+}
+
+/** Margin & Padding */
+$spaceamounts: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+$spacetypes: ('half', 'qtr');
+@each $space in $spaceamounts {
+  /** Margin */
+  // All around margin
+  .--m-#{$space} {
+    margin: #{$space}rem;
+  }
+  // Vertical margin
+  .--my-#{$space} {
+    margin: #{$space}rem 0;
+  }
+  // Horizontal margin
+  .--mx-#{$space} {
+    margin: 0 #{$space}rem;
+  }
+  // Top margin
+  .--mt-#{$space} {
+    margin: #{$space}rem 0 0 0;
+  }
+  // Bottom margin
+  .--mb-#{$space} {
+    margin: 0 0 #{$space}rem 0;
+  }
+  // Left margin
+  .--ml-#{$space} {
+    margin: 0 0 0 #{$space}rem;
+  }
+  // Right margin
+  .--mr-#{$space} {
+    margin: 0 #{$space}rem 0 0;
+  }
+  /** Padding */
+  // All around padding
+  .--p-#{$space} {
+    padding: #{$space}rem;
+  }
+  // Vertical padding
+  .--py-#{$space} {
+    padding: #{$space}rem 0;
+  }
+  // Horizontal padding
+  .--px-#{$space} {
+    padding: 0 #{$space}rem;
+  }
+  // Top padding
+  .--pt-#{$space} {
+    padding: #{$space}rem 0 0 0;
+  }
+  // Bottom padding
+  .--pb-#{$space} {
+    padding: 0 0 #{$space}rem 0;
+  }
+  // Left padding
+  .--pl-#{$space} {
+    padding: 0 0 0 #{$space}rem;
+  }
+  // Right padding
+  .--pr-#{$space} {
+    padding: 0 #{$space}rem 0 0;
+  }
+}
+
+// All around  auto margin
+.--m-auto {
+  margin: auto;
+}
+// Vertical auto margin
+.--my-auto {
+  margin: auto 0;
+}
+// Horizontal auto margin
+.--mx-auto {
+  margin: 0 auto;
+}
+
+/* 0.5rem margin*/
+.--m-half {
+  margin: 0.5rem;
+}
+// Vertical margin
+.--my-half {
+  margin: 0.5rem 0;
+}
+// Horizontal margin
+.--mx-half {
+  margin: 0 0.5rem;
+}
+// Top margin
+.--mt-half {
+  margin: 0.5rem 0 0 0;
+}
+// Bottom margin
+.--mb-half {
+  margin: 0 0 0.5rem 0;
+}
+// Left margin
+.--ml-half {
+  margin: 0 0 0 0.5rem;
+}
+// Right margin
+.--mr-half {
+  margin: 0 0.5rem 0 0;
+}
+
+/* 0.25rem margin*/
+.--m-qter {
+  margin: 0.25rem;
+}
+// Vertical margin
+.--my-qter {
+  margin: 0.25rem 0;
+}
+// Horizontal margin
+.--mx-qter {
+  margin: 0 0.25rem;
+}
+// Top margin
+.--mt-qter {
+  margin: 0.25rem 0 0 0;
+}
+// Bottom margin
+.--mb-qter {
+  margin: 0 0 0.25rem 0;
+}
+// Left margin
+.--ml-qter {
+  margin: 0 0 0 0.25rem;
+}
+// Right margin
+.--mr-qter {
+  margin: 0 0.25rem 0 0;
+}
+
+/*****************************************/
+
+/* 0.5rem margin*/
+.--p-half {
+  padding: 0.5rem;
+}
+// Vertical margin
+.--py-half {
+  padding: 0.5rem 0;
+}
+// Horizontal margin
+.--px-half {
+  padding: 0 0.5rem;
+}
+// Top margin
+.--pt-half {
+  padding: 0.5rem 0 0 0;
+}
+// Bottom margin
+.--pb-half {
+  padding: 0 0 0.5rem 0;
+}
+// Left margin
+.--pl-half {
+  padding: 0 0 0 0.5rem;
+}
+// Right margin
+.--pr-half {
+  padding: 0 0.5rem 0 0;
+}
+
+/* 0.25rem margin*/
+.--p-qter {
+  padding: 0.25rem;
+}
+// Vertical margin
+.--py-qter {
+  padding: 0.25rem 0;
+}
+// Horizontal margin
+.--px-qter {
+  padding: 0 0.25rem;
+}
+// Top margin
+.--pt-qter {
+  padding: 0.25rem 0 0 0;
+}
+// Bottom margin
+.--pb-qter {
+  padding: 0 0 0.25rem 0;
+}
+// Left margin
+.--pl-qter {
+  padding: 0 0 0 0.25rem;
+}
+// Right margin
+.--pr-qter {
+  padding: 0 0.25rem 0 0;
+}
+
+/** Max width */
+$max-width: 1100px;
