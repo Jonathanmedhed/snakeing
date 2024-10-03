@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import KeyListener from "./KeyListener";
 
 const Grid = () => {
   // for on is key clicked
@@ -17,26 +18,6 @@ const Grid = () => {
 
   const rows = [...Array(20)];
   const cells = [...Array(20)];
-
-  const handleKeyPress = (e) => {
-    if (e.key === "ArrowLeft") {
-      setIsLeft(true);
-    } else if (e.key === "ArrowRight") {
-      setIsRight(true);
-    } else if (e.key === "ArrowUp") {
-      setIsUp(true);
-    } else if (e.key === "ArrowDown") {
-      setIsDown(true);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyPress);
-
-    return function () {
-      document.removeEventListener("keydown", handleKeyPress);
-    };
-  }, []);
 
   useEffect(() => {
     let cellsActive = activeCells;
@@ -104,25 +85,31 @@ const Grid = () => {
     }
   };
 
+  const keys = [
+    { id: "ArrowLeft", action: () => setIsLeft(true) },
+    { id: "ArrowRight", action: () => setIsRight(true) },
+    { id: "ArrowUp", action: () => setIsUp(true) },
+    { id: "ArrowDown", action: () => setIsDown(true) },
+  ];
+
   return (
-    <div className="grid" tabIndex={0} onKeyDown={handleKeyPress}>
-      {console.log(activeCells[0])}
-      {console.log(activeCells[1])}
-      {console.log(activeCells[2])}
-      <div className="grid__container">
-        {rows.map((item, actRow) => (
-          <div key={actRow} className="grid__row">
-            {cells.map((item, actCell) => (
-              <div
-                key={actCell}
-                className={`grid__cell ${
-                  checkIfActive(actCell, actRow) ? "--active" : ""
-                }`}
-              ></div>
-            ))}
-          </div>
-        ))}
-      </div>
+    <div className="grid">
+      <KeyListener keys={keys}>
+        <div className="grid__container">
+          {rows.map((item, actRow) => (
+            <div key={actRow} className="grid__row">
+              {cells.map((item, actCell) => (
+                <div
+                  key={actCell}
+                  className={`grid__cell ${
+                    checkIfActive(actCell, actRow) ? "--active" : ""
+                  }`}
+                ></div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </KeyListener>
     </div>
   );
 };
