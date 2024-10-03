@@ -2771,8 +2771,14 @@ Images
   height: 2.5rem;
   border: solid 1px black;
 }
-.grid__cell.--active {
+.grid .snake-cell {
   background-color: black;
+}
+.grid .target-cell {
+  background-color: red;
+}
+.grid .collided-cell {
+  background-color: green;
 }
 
 /** Main Config */

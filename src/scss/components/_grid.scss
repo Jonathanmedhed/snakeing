@@ -19,8 +19,14 @@
     width: 2.5rem;
     height: 2.5rem;
     border: solid 1px black;
-    &.--active {
-      background-color: black;
-    }
+  }
+  .snake-cell {
+    background-color: black;
+  }
+  .target-cell {
+    background-color: red;
+  }
+  .collided-cell {
+    background-color: green;
   }
 }
