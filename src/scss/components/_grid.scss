@@ -22,9 +22,12 @@
   }
   .snake-cell {
     background-color: black;
+    &.--crashed {
+      background-color: red;
+    }
   }
   .target-cell {
-    background-color: red;
+    background-color: blue;
   }
   .collided-cell {
     background-color: green;

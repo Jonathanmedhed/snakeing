@@ -2,25 +2,26 @@ import React, { useEffect, useState } from "react";
 import KeyListener from "./KeyListener";
 
 const Grid = () => {
-  // for on is key clicked
+  // for the active direction
   const [isRight, setIsRight] = useState(false);
   const [isLeft, setIsLeft] = useState(false);
   const [isUp, setIsUp] = useState(false);
   const [isDown, setIsDown] = useState(false);
 
-  const [snakeSize, setSnakeSize] = useState(3);
-
   // Snake's cells
   const [snakeCells, setSnakeCells] = useState([
-    { x: -2, y: 0 },
-    { x: -1, y: 0 },
     { x: 0, y: 0 },
+    { x: 1, y: 0 },
+    { x: 2, y: 0 },
   ]);
   // Target cells
   const [targetCells, setTargetCells] = useState([{ x: 10, y: 10 }]);
 
   // Snake direction
   const [snakeDirection, setSnakeDirection] = useState("right");
+
+  // Snake status
+  const [isCrashed, setIsCrashed] = useState(false);
 
   // Number of Rows and Cells per row
   const rows = [...Array(20)];
@@ -35,37 +36,13 @@ const Grid = () => {
   ];
 
   /**
-   * Checks if current cell coordinates is an active cell
+   * Checks if there is contact
    * @param {*} x number of cell in row (from 0(top) to 0+(down))
    * @param {*} y number of row in frid (from 0(top) to 0+(down))
    * @returns
    */
-  const checkIsInSnake = (x, y) => {
-    if (snakeCells.some((e) => e.x === x && e.y === y)) {
-      return true;
-    }
-  };
-
-  /**
-   * Checks if current cell coordinates is an target cell
-   * @param {*} x number of cell in row (from 0(top) to 0+(down))
-   * @param {*} y number of row in frid (from 0(top) to 0+(down))
-   * @returns
-   */
-  const checkIfTarget = (x, y) => {
-    if (targetCells.some((e) => e.x === x && e.y === y)) {
-      return true;
-    }
-  };
-
-  /**
-   * Checks if current cell coordinates is in both target and snake cells
-   * @param {*} x number of cell in row (from 0(top) to 0+(down))
-   * @param {*} y number of row in frid (from 0(top) to 0+(down))
-   * @returns
-   */
-  const checkIfCollided = (x, y) => {
-    if (checkIsInSnake(x, y) && checkIfTarget(x, y)) {
+  const checkIfContact = (x, y, cells) => {
+    if (cells.some((e) => e.x === x && e.y === y)) {
       return true;
     }
   };
@@ -77,9 +54,13 @@ const Grid = () => {
    * @returns
    */
   const checkCellType = (x, y) => {
-    return `${checkIsInSnake(x, y) ? "snake-cell" : ""} ${
-      checkIfTarget(x, y) ? "target-cell" : ""
-    } ${checkIfCollided(x, y) ? "collided-cell" : ""}`;
+    return `${checkIfContact(x, y, snakeCells) ? "snake-cell" : ""} ${
+      checkIfContact(x, y, targetCells) ? "target-cell" : ""
+    } ${
+      checkIfContact(x, y, snakeCells) && checkIfContact(x, y, targetCells)
+        ? "collided-cell"
+        : ""
+    } ${isCrashed ? "--crashed" : ""}`;
   };
 
   /**
@@ -88,7 +69,7 @@ const Grid = () => {
    * @param {String} oppositeDirection opposite direction to key direction
    * @param {Function} onFinish last action of movement
    * @param {String} direction new direction e.g: 'right'
-   * @param {Condition} isInLimits condition to ccheck if is going out of grid
+   * @param {Condition} isInLimits condition to check if is going out of grid
    * @param {Integer} newX value of x to add or substract
    * @param {Integer} newY value of y to add or substract
    */
@@ -104,8 +85,12 @@ const Grid = () => {
     const cellsToAdd = snakeCells;
     const newCellX = snakeCells[snakeCells.length - 1].x + newX || 0;
     const newCellY = snakeCells[snakeCells.length - 1].y + newY || 0;
-    if (isSelected) {
+    if (isSelected && !isCrashed) {
       if (snakeDirection !== oppositeDirection) {
+        if (snakeCells.some((e) => e.x === newCellX && e.y === newCellY)) {
+          setIsCrashed(true);
+        }
+        // Check if next cell is out of limits
         if (isInLimits) {
           // add new cell to head
           cellsToAdd.push({
@@ -113,16 +98,24 @@ const Grid = () => {
             y: newCellY,
           });
           // if not collided remove last cell (remain same size)
-          if (!checkIfCollided(newCellX, newCellY)) {
+          if (
+            !(
+              checkIfContact(newCellX, newCellY, snakeCells) &&
+              checkIfContact(newCellX, newCellY, targetCells)
+            )
+          ) {
             cellsToAdd.shift();
           }
           // update snake cells
           setSnakeCells(cellsToAdd);
           // update snake direction
           setSnakeDirection(direction);
+        } else {
+          setIsCrashed(true);
         }
       }
       onFinish();
+    } else {
     }
   };
 

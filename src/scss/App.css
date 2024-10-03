@@ -2774,8 +2774,11 @@ Images
 .grid .snake-cell {
   background-color: black;
 }
-.grid .target-cell {
+.grid .snake-cell.--crashed {
   background-color: red;
+}
+.grid .target-cell {
+  background-color: blue;
 }
 .grid .collided-cell {
   background-color: green;
