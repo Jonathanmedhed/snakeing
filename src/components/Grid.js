@@ -4,10 +4,7 @@ import { getRandom } from "../utils/functions";
 
 const Grid = () => {
   // for the active direction
-  const [isRight, setIsRight] = useState(false);
-  const [isLeft, setIsLeft] = useState(false);
-  const [isUp, setIsUp] = useState(false);
-  const [isDown, setIsDown] = useState(false);
+  const [direction, setDirection] = useState(false);
 
   // Number of Rows and Cells per row
   const cellAmount = 20;
@@ -33,10 +30,10 @@ const Grid = () => {
 
   // Keys for the key listener
   const keys = [
-    { id: "ArrowLeft", action: () => setIsLeft(true) },
-    { id: "ArrowRight", action: () => setIsRight(true) },
-    { id: "ArrowUp", action: () => setIsUp(true) },
-    { id: "ArrowDown", action: () => setIsDown(true) },
+    { id: "ArrowLeft", action: () => setDirection("left") },
+    { id: "ArrowRight", action: () => setDirection("right") },
+    { id: "ArrowUp", action: () => setDirection("up") },
+    { id: "ArrowDown", action: () => setDirection("down") },
   ];
 
   /**
@@ -106,19 +103,44 @@ const Grid = () => {
    * @param {Number} newX value of x to add or substract
    * @param {Number} newY value of y to add or substract
    */
-  const onDirectionSelected = (
-    isSelected,
-    oppositeDirection,
-    finishMovement,
-    direction,
-    isInLimits,
-    newX,
-    newY
-  ) => {
+  const onDirectionSelected = (selectedDirection) => {
+    let oppositeDirection;
+    let isInLimits;
+    let newX;
+    let newY;
     const newSnakeCells = snakeCells;
+    switch (selectedDirection) {
+      case "left":
+        oppositeDirection = "right";
+        isInLimits = snakeCells[snakeCells.length - 1].x !== 0;
+        newX = -1;
+        newY = false;
+        break;
+      case "right":
+        oppositeDirection = "left";
+        isInLimits = snakeCells[snakeCells.length - 1].x !== cells.length - 1;
+        newX = 1;
+        newY = false;
+        break;
+      case "up":
+        oppositeDirection = "down";
+        isInLimits = snakeCells[snakeCells.length - 1].y !== 0;
+        newX = false;
+        newY = -1;
+        break;
+      case "down":
+        oppositeDirection = "up";
+        isInLimits = snakeCells[snakeCells.length - 1].y !== rows.length - 1;
+        newX = false;
+        newY = 1;
+        break;
+      default:
+        break;
+    }
+
     const newCellX = snakeCells[snakeCells.length - 1].x + newX || 0;
     const newCellY = snakeCells[snakeCells.length - 1].y + newY || 0;
-    if (isSelected && !isCrashed) {
+    if (selectedDirection && !isCrashed) {
       if (snakeDirection !== oppositeDirection) {
         if (snakeCells.some((e) => e.x === newCellX && e.y === newCellY)) {
           setIsCrashed(true);
@@ -153,53 +175,13 @@ const Grid = () => {
           setIsCrashed(true);
         }
       }
-      finishMovement();
-    } else {
+      setDirection(false);
     }
   };
 
   useEffect(() => {
-    // On direction Right
-    onDirectionSelected(
-      isRight,
-      "left",
-      () => setIsRight(false),
-      "right",
-      snakeCells[snakeCells.length - 1].x !== cells.length - 1,
-      1,
-      false
-    );
-    // On direction Left
-    onDirectionSelected(
-      isLeft,
-      "right",
-      () => setIsLeft(false),
-      "left",
-      snakeCells[snakeCells.length - 1].x !== 0,
-      -1,
-      false
-    );
-    // On direction Down
-    onDirectionSelected(
-      isDown,
-      "up",
-      () => setIsDown(false),
-      "down",
-      snakeCells[snakeCells.length - 1].y !== rows.length - 1,
-      false,
-      1
-    );
-    // On direction Up
-    onDirectionSelected(
-      isUp,
-      "down",
-      () => setIsUp(false),
-      "up",
-      snakeCells[snakeCells.length - 1].y !== 0,
-      false,
-      -1
-    );
-  }, [isRight, isLeft, isUp, isDown]); // eslint-disable-line
+    onDirectionSelected(direction);
+  }, [direction]); // eslint-disable-line
 
   return (
     <KeyListener keys={keys}>
