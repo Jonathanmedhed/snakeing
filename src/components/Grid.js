@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import KeyListener from "./KeyListener";
+import { getRandom } from "../utils/functions";
 
 const Grid = () => {
   // for the active direction
@@ -8,6 +9,11 @@ const Grid = () => {
   const [isUp, setIsUp] = useState(false);
   const [isDown, setIsDown] = useState(false);
 
+  // Number of Rows and Cells per row
+  const cellAmount = 20;
+  const rows = [...Array(cellAmount)];
+  const cells = [...Array(cellAmount)];
+
   // Snake's cells
   const [snakeCells, setSnakeCells] = useState([
     { x: 0, y: 0 },
@@ -15,17 +21,15 @@ const Grid = () => {
     { x: 2, y: 0 },
   ]);
   // Target cells
-  const [targetCells, setTargetCells] = useState([{ x: 10, y: 10 }]);
+  const [targetCells, setTargetCells] = useState([
+    { x: Math.floor(cellAmount / 2), y: Math.floor(cellAmount / 2) },
+  ]);
 
   // Snake direction
   const [snakeDirection, setSnakeDirection] = useState("right");
 
   // Snake status
   const [isCrashed, setIsCrashed] = useState(false);
-
-  // Number of Rows and Cells per row
-  const rows = [...Array(20)];
-  const cells = [...Array(20)];
 
   // Keys for the key listener
   const keys = [
@@ -36,10 +40,11 @@ const Grid = () => {
   ];
 
   /**
-   * Checks if there is contact
-   * @param {*} x number of cell in row (from 0(top) to 0+(down))
-   * @param {*} y number of row in frid (from 0(top) to 0+(down))
-   * @returns
+   * @description Checks if there is contact
+   * @param {Number} x number of cell in row (from 0(top) to 0+(down))
+   * @param {Number} y number of row in frid (from 0(top) to 0+(down))
+   * @param {Array} cells Array of cells e.g: [{x: 0, y: 0}]
+   * @returns true if contact
    */
   const checkIfContact = (x, y, cells) => {
     if (cells.some((e) => e.x === x && e.y === y)) {
@@ -48,9 +53,9 @@ const Grid = () => {
   };
 
   /**
-   * Returns cell className
-   * @param {*} x number of cell in row (from 0(top) to 0+(down))
-   * @param {*} y number of row in frid (from 0(top) to 0+(down))
+   * @description Returns cell className
+   * @param {Number} x number of cell in row (from 0(top) to 0+(down))
+   * @param {Number} y number of row in frid (from 0(top) to 0+(down))
    * @returns
    */
   const checkCellType = (x, y) => {
@@ -64,25 +69,53 @@ const Grid = () => {
   };
 
   /**
-   *
+   * @description adds next target
+   * @param {Number} x number of cell in row (from 0(top) to 0+(down))
+   * @param {Number} y number of row in frid (from 0(top) to 0+(down))
+   */
+  const addNewTarget = (x, y) => {
+    let newTarget = {
+      x: getRandom(0, cellAmount - 1),
+      y: getRandom(0, cellAmount - 1),
+    };
+
+    // change target if is includen in snakes cells
+    if (checkIfContact(newTarget.x, newTarget.y, snakeCells)) {
+      newTarget = {
+        x: getRandom(0, cellAmount - 1),
+        y: getRandom(0, cellAmount - 1),
+      };
+    }
+
+    // remove target collided
+    let newTargets = targetCells.filter((cell) => {
+      return cell.x !== x && cell.y !== y;
+    });
+
+    newTargets.push(newTarget);
+    setTargetCells(newTargets);
+  };
+
+  /**
+   * @description Creates action depending on next cell, if next cell is empty removes tail cell and adds one to head; if next cell is wall or snake it crashes and stops snake; if next cell is target updates the targets
    * @param {Boolean} isSelected on key down
    * @param {String} oppositeDirection opposite direction to key direction
-   * @param {Function} onFinish last action of movement
+   * @param {Function} finishMovement last action of movement
    * @param {String} direction new direction e.g: 'right'
    * @param {Condition} isInLimits condition to check if is going out of grid
-   * @param {Integer} newX value of x to add or substract
-   * @param {Integer} newY value of y to add or substract
+   * @param {Number} newX value of x to add or substract
+   * @param {Number} newY value of y to add or substract
    */
   const onDirectionSelected = (
     isSelected,
     oppositeDirection,
-    onFinish,
+    finishMovement,
     direction,
     isInLimits,
     newX,
     newY
   ) => {
-    const cellsToAdd = snakeCells;
+    const newSnakeCells = snakeCells;
     const newCellX = snakeCells[snakeCells.length - 1].x + newX || 0;
     const newCellY = snakeCells[snakeCells.length - 1].y + newY || 0;
     if (isSelected && !isCrashed) {
@@ -90,31 +123,37 @@ const Grid = () => {
         if (snakeCells.some((e) => e.x === newCellX && e.y === newCellY)) {
           setIsCrashed(true);
         }
-        // Check if next cell is out of limits
+        // Check if target cell is out of limits
         if (isInLimits) {
           // add new cell to head
-          cellsToAdd.push({
+          newSnakeCells.push({
             x: newCellX,
             y: newCellY,
           });
-          // if not collided remove last cell (remain same size)
+
+          /***************************** UPDATE TARGETS HERE ****************************************/
+          if (checkIfContact(newCellX, newCellY, targetCells)) {
+            addNewTarget(newCellX, newCellY);
+          }
+          // if not collided remove last cell (to remain same snake size)
           if (
             !(
               checkIfContact(newCellX, newCellY, snakeCells) &&
               checkIfContact(newCellX, newCellY, targetCells)
             )
           ) {
-            cellsToAdd.shift();
+            newSnakeCells.shift();
+            // if collided with target
           }
           // update snake cells
-          setSnakeCells(cellsToAdd);
+          setSnakeCells(newSnakeCells);
           // update snake direction
           setSnakeDirection(direction);
         } else {
           setIsCrashed(true);
         }
       }
-      onFinish();
+      finishMovement();
     } else {
     }
   };

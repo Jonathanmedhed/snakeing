@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
 
+/**
+ * @description Container with a key listener, takes an array of keys to be listened.
+ * @param {Component} children content inside listener e.g:  <KeyListener> { chilren } </KeyListener>
+ * @param {Array} keys objects of keys [{ id: "ArrowLeft", action: () => setIsLeft(true) }]
+ * @returns component with a listener
+ */
 const KeyListener = ({ children, keys }) => {
   const handleKeyPress = (e) => {
     keys.forEach((key) => {
