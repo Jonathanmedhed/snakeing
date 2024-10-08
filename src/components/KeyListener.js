@@ -23,7 +23,7 @@ const KeyListener = ({ children, keys }) => {
     };
   }, []); // eslint-disable-line
 
-  return <span tabIndex={0}>{children}</span>;
+  return <span>{children}</span>;
 };
 
 export default KeyListener;

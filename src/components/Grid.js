@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import KeyListener from "./KeyListener";
 import { getRandom } from "../utils/functions";
+import Overlay from "./Overlay";
 
 const Grid = () => {
   // for the active direction
   const [direction, setDirection] = useState(false);
+  const [oppositeDirection, setOpositeDirection] = useState(false);
+  const [lastDirection, setLastDirection] = useState(false);
+  const [movesCount, setMovesCount] = useState(0);
 
   // Number of Rows and Cells per row
   const cellAmount = 20;
@@ -22,16 +26,19 @@ const Grid = () => {
     { x: Math.floor(cellAmount / 2), y: Math.floor(cellAmount / 2) },
   ]);
 
-  // Snake direction
-  const [snakeDirection, setSnakeDirection] = useState("right");
-
   // Snake status
   const [isCrashed, setIsCrashed] = useState(false);
+
+  // Show screens
+  const [showScreen, setShowScreen] = useState(false);
 
   // Keys for the key listener
   const keys = [
     { id: "ArrowLeft", action: () => setDirection("left") },
-    { id: "ArrowRight", action: () => setDirection("right") },
+    {
+      id: "ArrowRight",
+      action: () => setDirection("right"),
+    },
     { id: "ArrowUp", action: () => setDirection("up") },
     { id: "ArrowDown", action: () => setDirection("down") },
   ];
@@ -102,7 +109,7 @@ const Grid = () => {
    * @param {Condition} isInLimits condition to check if is going out of grid
    * @param {Number} newX value of x to add or substract
    * @param {Number} newY value of y to add or substract
-   */
+   
   const onDirectionSelected = (selectedDirection) => {
     let oppositeDirection;
     let isInLimits;
@@ -141,7 +148,7 @@ const Grid = () => {
     const newCellX = snakeCells[snakeCells.length - 1].x + newX || 0;
     const newCellY = snakeCells[snakeCells.length - 1].y + newY || 0;
     if (selectedDirection && !isCrashed) {
-      if (snakeDirection !== oppositeDirection) {
+      if (direction !== oppositeDirection) {
         if (snakeCells.some((e) => e.x === newCellX && e.y === newCellY)) {
           setIsCrashed(true);
         }
@@ -153,7 +160,7 @@ const Grid = () => {
             y: newCellY,
           });
 
-          /***************************** UPDATE TARGETS HERE ****************************************/
+          // update targers
           if (checkIfContact(newCellX, newCellY, targetCells)) {
             addNewTarget(newCellX, newCellY);
           }
@@ -170,7 +177,7 @@ const Grid = () => {
           // update snake cells
           setSnakeCells(newSnakeCells);
           // update snake direction
-          setSnakeDirection(direction);
+          setDirection(direction);
         } else {
           setIsCrashed(true);
         }
@@ -179,12 +186,123 @@ const Grid = () => {
     }
   };
 
+  */
+
+  // Return game to initial states
+  const restartGame = () => {
+    setDirection(false);
+    setSnakeCells([
+      { x: 0, y: 0 },
+      { x: 1, y: 0 },
+      { x: 2, y: 0 },
+    ]);
+    setMovesCount(0);
+    setIsCrashed(false);
+  };
+
   useEffect(() => {
-    onDirectionSelected(direction);
-  }, [direction]); // eslint-disable-line
+    //Implementing the setInterval method
+    const interval = setInterval(() => {
+      let newX;
+      let newY;
+      let isInLimits;
+      let opposite;
+      const newSnakeCells = snakeCells;
+      let directionToTake = direction;
+
+      // if going on opposite direction, continue last direction
+      if (directionToTake === oppositeDirection) {
+        directionToTake = lastDirection;
+      }
+
+      switch (directionToTake) {
+        case "up":
+          newX = false;
+          newY = -1;
+          isInLimits = snakeCells[snakeCells.length - 1].y !== 0;
+          opposite = "down";
+          break;
+        case "right":
+          newX = 1;
+          newY = false;
+          isInLimits = snakeCells[snakeCells.length - 1].x !== cells.length - 1;
+          opposite = "left";
+          break;
+        case "down":
+          newX = false;
+          newY = 1;
+          isInLimits = snakeCells[snakeCells.length - 1].y !== rows.length - 1;
+          opposite = "up";
+          break;
+        case "left":
+          newX = -1;
+          newY = false;
+          isInLimits = snakeCells[snakeCells.length - 1].x !== 0;
+          opposite = "right";
+          break;
+        default:
+          break;
+      }
+
+      const newCellX = snakeCells[snakeCells.length - 1].x + newX || 0;
+      const newCellY = snakeCells[snakeCells.length - 1].y + newY || 0;
+
+      // if directionToTake selected and hasn't crashed
+      if (directionToTake && !isCrashed) {
+        // if collide with self, crash
+        if (snakeCells.some((e) => e.x === newCellX && e.y === newCellY)) {
+          setIsCrashed(true);
+          setShowScreen(true);
+        }
+        // if inside grid limits
+        if (isInLimits) {
+          // add new cell to head (move next cell)
+          newSnakeCells.push({
+            x: newCellX,
+            y: newCellY,
+          });
+          // update targers
+          if (checkIfContact(newCellX, newCellY, targetCells)) {
+            addNewTarget(newCellX, newCellY);
+          }
+          // if not collided remove last cell (to remain same snake size)
+          if (
+            !(
+              checkIfContact(newCellX, newCellY, snakeCells) &&
+              checkIfContact(newCellX, newCellY, targetCells)
+            )
+          ) {
+            newSnakeCells.shift();
+          }
+          setSnakeCells(newSnakeCells);
+          setMovesCount(movesCount + 1);
+        } else {
+          // if outside limits
+          setIsCrashed(true);
+          setShowScreen(true);
+        }
+        setOpositeDirection(opposite);
+        setLastDirection(directionToTake);
+      }
+    }, 100);
+
+    //Clearing the interval
+    return () => clearInterval(interval);
+  }, [snakeCells, movesCount, direction]); // eslint-disable-line
 
   return (
     <KeyListener keys={keys}>
+      <Overlay hide={() => setShowScreen(false)} show={showScreen}>
+        <h1>GAME OVER</h1>
+        <span
+          onClick={() => {
+            restartGame();
+            setShowScreen(false);
+          }}
+        >
+          Restart
+        </span>
+      </Overlay>
       <div className="grid">
         <div className="grid__container">
           {rows.map((row, actRow) => (

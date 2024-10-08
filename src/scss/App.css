@@ -2784,6 +2784,28 @@ Images
   background-color: green;
 }
 
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  overflow: auto;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.overlay .overlay__inner {
+  position: relative;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+.overlay .overlay__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 /** Main Config */
 * {
   box-sizing: border-box;
