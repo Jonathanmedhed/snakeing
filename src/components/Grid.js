@@ -292,7 +292,7 @@ const Grid = () => {
 
   return (
     <KeyListener keys={keys}>
-      <Overlay hide={() => setShowScreen(false)} show={showScreen}>
+      <Overlay hide={() => setShowScreen(false)} show={false}>
         <h1>GAME OVER</h1>
         <span
           onClick={() => {
@@ -304,7 +304,9 @@ const Grid = () => {
         </span>
       </Overlay>
       <div className="grid">
+        grid
         <div className="grid__container">
+          grid container
           {rows.map((row, actRow) => (
             <div key={actRow} className="grid__row">
               {cells.map((cell, actCell) => (
