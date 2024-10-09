@@ -70,6 +70,8 @@ const Grid = () => {
    * @returns
    */
   const checkCellType = (x, y) => {
+    // get index if snake cell, so direction can be used
+    let index = snakeCells.findIndex((cell) => cell.x === x && cell.y === y);
     return `${
       checkIfContact(x, y, snakeCells)
         ? `snake-cell ${
@@ -79,7 +81,7 @@ const Grid = () => {
               : ""
           } ${
             snakeCells[0].x === x && snakeCells[0].y === y
-              ? `--tail --${direction || "neutral"}`
+              ? `--tail --${snakeCells[index + 1].direction || "neutral"}`
               : ""
           }`
         : ""
@@ -218,6 +220,7 @@ const Grid = () => {
           newSnakeCells.push({
             x: newCellX,
             y: newCellY,
+            direction: directionToTake,
           });
           // update targers
           if (checkIfContact(newCellX, newCellY, targetCells)) {
@@ -232,18 +235,30 @@ const Grid = () => {
           ) {
             newSnakeCells.shift();
           }
+          // Check if last snake cell is a corner, if it is, remove lsat from corners
+          if (
+            cornerCells.length >= 1 &&
+            cornerCells[0].x === snakeCells[0].x &&
+            cornerCells[0].y === snakeCells[0].y
+          ) {
+            newCornerCells.shift();
+          }
           // create corner cells on turn
           if (directionToTake !== lastDirection) {
-            newCornerCells.push({
+            let newCornerCell = {
               x: snakeCells[snakeCells.length - 2].x,
               y: snakeCells[snakeCells.length - 2].y,
-              className: `--corner-cell --${directionToTake}-${lastDirection}`,
-            });
+              className: `--corner-cell --${directionToTake}-${
+                lastDirection || "right"
+              }`,
+            };
+            newCornerCells.push(newCornerCell);
             setCornerCells(newCornerCells);
           }
           updateCornerCells();
           // update snake
           setSnakeCells(newSnakeCells);
+          // update moves count so useEffect continues
           setMovesCount(movesCount + 1);
         } else {
           // if outside limits
@@ -253,7 +268,7 @@ const Grid = () => {
         setOpositeDirection(opposite);
         setLastDirection(directionToTake);
       }
-    }, 500);
+    }, 100);
 
     //Clearing the interval
     return () => clearInterval(interval);
