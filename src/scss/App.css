@@ -2777,11 +2777,74 @@ Images
 .grid .snake-cell.--crashed {
   background-color: red;
 }
+.grid .snake-cell.--head {
+  background-color: green;
+  -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+          clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.grid .snake-cell.--head.--right, .grid .snake-cell.--head.--neutral {
+  transform: rotate(90deg);
+}
+.grid .snake-cell.--head.--down {
+  transform: rotate(180deg);
+}
+.grid .snake-cell.--head.--left {
+  transform: rotate(270deg);
+}
+.grid .snake-cell.--tail {
+  background-color: brown;
+  -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+          clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.grid .snake-cell.--tail.--right, .grid .snake-cell.--tail.--neutral {
+  transform: rotate(270deg);
+}
+.grid .snake-cell.--tail.--up {
+  transform: rotate(180deg);
+}
+.grid .snake-cell.--tail.--left {
+  transform: rotate(90deg);
+}
 .grid .target-cell {
   background-color: blue;
 }
 .grid .collided-cell {
   background-color: green;
+}
+.grid .--corner-cell {
+  background-color: brown;
+}
+.grid .--corner-cell.--right-up {
+  -webkit-clip-path: polygon(100% 0, 0 100%, 100% 100%);
+          clip-path: polygon(100% 0, 0 100%, 100% 100%);
+}
+.grid .--corner-cell.--right-down {
+  -webkit-clip-path: polygon(0 0, 100% 100%, 100% 0);
+          clip-path: polygon(0 0, 100% 100%, 100% 0);
+}
+.grid .--corner-cell.--left-up {
+  -webkit-clip-path: polygon(96% 100%, 0 0, 0 100%);
+          clip-path: polygon(96% 100%, 0 0, 0 100%);
+}
+.grid .--corner-cell.--left-down {
+  -webkit-clip-path: polygon(0 100%, 0 0, 100% 0);
+          clip-path: polygon(0 100%, 0 0, 100% 0);
+}
+.grid .--corner-cell.--down-right {
+  -webkit-clip-path: polygon(100% 100%, 0 100%, 0 0);
+          clip-path: polygon(100% 100%, 0 100%, 0 0);
+}
+.grid .--corner-cell.--down-left {
+  -webkit-clip-path: polygon(100% 100%, 0 100%, 100% 0);
+          clip-path: polygon(100% 100%, 0 100%, 100% 0);
+}
+.grid .--corner-cell.--up-right {
+  -webkit-clip-path: polygon(0 0, 0 100%, 100% 0);
+          clip-path: polygon(0 0, 0 100%, 100% 0);
+}
+.grid .--corner-cell.--up-left {
+  -webkit-clip-path: polygon(0 0, 100% 100%, 100% 0);
+          clip-path: polygon(0 0, 100% 100%, 100% 0);
 }
 
 .overlay {

@@ -25,11 +25,66 @@
     &.--crashed {
       background-color: red;
     }
+    &.--head {
+      background-color: green;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      &.--right,
+      &.--neutral {
+        transform: rotate(90deg);
+      }
+      &.--down {
+        transform: rotate(180deg);
+      }
+      &.--left {
+        transform: rotate(270deg);
+      }
+    }
+    &.--tail {
+      background-color: brown;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      &.--right,
+      &.--neutral {
+        transform: rotate(270deg);
+      }
+      &.--up {
+        transform: rotate(180deg);
+      }
+      &.--left {
+        transform: rotate(90deg);
+      }
+    }
   }
   .target-cell {
     background-color: blue;
   }
   .collided-cell {
     background-color: green;
+  }
+  .--corner-cell {
+    background-color: brown;
+    &.--right-up {
+      clip-path: polygon(100% 0, 0 100%, 100% 100%);
+    }
+    &.--right-down {
+      clip-path: polygon(0 0, 100% 100%, 100% 0);
+    }
+    &.--left-up {
+      clip-path: polygon(96% 100%, 0 0, 0 100%);
+    }
+    &.--left-down {
+      clip-path: polygon(0 100%, 0 0, 100% 0);
+    }
+    &.--down-right {
+      clip-path: polygon(100% 100%, 0 100%, 0 0);
+    }
+    &.--down-left {
+      clip-path: polygon(100% 100%, 0 100%, 100% 0);
+    }
+    &.--up-right {
+      clip-path: polygon(0 0, 0 100%, 100% 0);
+    }
+    &.--up-left {
+      clip-path: polygon(0 0, 100% 100%, 100% 0);
+    }
   }
 }

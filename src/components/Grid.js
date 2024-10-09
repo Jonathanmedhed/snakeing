@@ -20,11 +20,18 @@ const Grid = () => {
     { x: 0, y: 0 },
     { x: 1, y: 0 },
     { x: 2, y: 0 },
+    { x: 3, y: 0 },
+    { x: 4, y: 0 },
+    { x: 5, y: 0 },
+    { x: 6, y: 0 },
+    { x: 7, y: 0 },
   ]);
   // Target cells
   const [targetCells, setTargetCells] = useState([
     { x: Math.floor(cellAmount / 2), y: Math.floor(cellAmount / 2) },
   ]);
+  // Corner cells
+  const [cornerCells, setCornerCells] = useState([]);
 
   // Snake status
   const [isCrashed, setIsCrashed] = useState(false);
@@ -63,13 +70,39 @@ const Grid = () => {
    * @returns
    */
   const checkCellType = (x, y) => {
-    return `${checkIfContact(x, y, snakeCells) ? "snake-cell" : ""} ${
-      checkIfContact(x, y, targetCells) ? "target-cell" : ""
-    } ${
+    return `${
+      checkIfContact(x, y, snakeCells)
+        ? `snake-cell ${
+            snakeCells[snakeCells.length - 1].x === x &&
+            snakeCells[snakeCells.length - 1].y === y
+              ? `--head --${direction || "neutral"}`
+              : ""
+          } ${
+            snakeCells[0].x === x && snakeCells[0].y === y
+              ? `--tail --${direction || "neutral"}`
+              : ""
+          }`
+        : ""
+    } ${checkIfContact(x, y, targetCells) ? "target-cell" : ""} ${
       checkIfContact(x, y, snakeCells) && checkIfContact(x, y, targetCells)
         ? "collided-cell"
         : ""
     } ${isCrashed ? "--crashed" : ""}`;
+  };
+
+  /**
+   * @description Returns cell className
+   * @param {Number} x number of cell in row (from 0(top) to 0+(down))
+   * @param {Number} y number of row in frid (from 0(top) to 0+(down))
+   * @returns
+   */
+  const checkCornerType = (x, y) => {
+    if (checkIfContact(x, y, cornerCells)) {
+      let index = cornerCells.findIndex((cell) => cell.x === x && cell.y === y);
+      return cornerCells[index].className;
+    } else {
+      return "";
+    }
   };
 
   /**
@@ -100,93 +133,17 @@ const Grid = () => {
     setTargetCells(newTargets);
   };
 
-  /**
-   * @description Creates action depending on next cell, if next cell is empty removes tail cell and adds one to head; if next cell is wall or snake it crashes and stops snake; if next cell is target updates the targets
-   * @param {Boolean} isSelected on key down
-   * @param {String} oppositeDirection opposite direction to key direction
-   * @param {Function} finishMovement last action of movement
-   * @param {String} direction new direction e.g: 'right'
-   * @param {Condition} isInLimits condition to check if is going out of grid
-   * @param {Number} newX value of x to add or substract
-   * @param {Number} newY value of y to add or substract
-   
-  const onDirectionSelected = (selectedDirection) => {
-    let oppositeDirection;
-    let isInLimits;
-    let newX;
-    let newY;
-    const newSnakeCells = snakeCells;
-    switch (selectedDirection) {
-      case "left":
-        oppositeDirection = "right";
-        isInLimits = snakeCells[snakeCells.length - 1].x !== 0;
-        newX = -1;
-        newY = false;
-        break;
-      case "right":
-        oppositeDirection = "left";
-        isInLimits = snakeCells[snakeCells.length - 1].x !== cells.length - 1;
-        newX = 1;
-        newY = false;
-        break;
-      case "up":
-        oppositeDirection = "down";
-        isInLimits = snakeCells[snakeCells.length - 1].y !== 0;
-        newX = false;
-        newY = -1;
-        break;
-      case "down":
-        oppositeDirection = "up";
-        isInLimits = snakeCells[snakeCells.length - 1].y !== rows.length - 1;
-        newX = false;
-        newY = 1;
-        break;
-      default:
-        break;
-    }
-
-    const newCellX = snakeCells[snakeCells.length - 1].x + newX || 0;
-    const newCellY = snakeCells[snakeCells.length - 1].y + newY || 0;
-    if (selectedDirection && !isCrashed) {
-      if (direction !== oppositeDirection) {
-        if (snakeCells.some((e) => e.x === newCellX && e.y === newCellY)) {
-          setIsCrashed(true);
-        }
-        // Check if target cell is out of limits
-        if (isInLimits) {
-          // add new cell to head
-          newSnakeCells.push({
-            x: newCellX,
-            y: newCellY,
-          });
-
-          // update targers
-          if (checkIfContact(newCellX, newCellY, targetCells)) {
-            addNewTarget(newCellX, newCellY);
-          }
-          // if not collided remove last cell (to remain same snake size)
-          if (
-            !(
-              checkIfContact(newCellX, newCellY, snakeCells) &&
-              checkIfContact(newCellX, newCellY, targetCells)
-            )
-          ) {
-            newSnakeCells.shift();
-            // if collided with target
-          }
-          // update snake cells
-          setSnakeCells(newSnakeCells);
-          // update snake direction
-          setDirection(direction);
-        } else {
-          setIsCrashed(true);
-        }
+  // Remove corners cells that are not snake cells
+  const updateCornerCells = () => {
+    cornerCells.forEach((cCell) => {
+      if (!checkIfContact(cCell.x, cCell.y, snakeCells)) {
+        let newCorners = cornerCells.filter((cell) => {
+          return cell.x !== cCell.x && cell.y !== cCell.y;
+        });
+        setCornerCells(newCorners);
       }
-      setDirection(false);
-    }
+    });
   };
-
-  */
 
   // Return game to initial states
   const restartGame = () => {
@@ -208,6 +165,7 @@ const Grid = () => {
       let isInLimits;
       let opposite;
       const newSnakeCells = snakeCells;
+      let newCornerCells = cornerCells;
       let directionToTake = direction;
 
       // if going on opposite direction, continue last direction
@@ -274,6 +232,17 @@ const Grid = () => {
           ) {
             newSnakeCells.shift();
           }
+          // create corner cells on turn
+          if (directionToTake !== lastDirection) {
+            newCornerCells.push({
+              x: snakeCells[snakeCells.length - 2].x,
+              y: snakeCells[snakeCells.length - 2].y,
+              className: `--corner-cell --${directionToTake}-${lastDirection}`,
+            });
+            setCornerCells(newCornerCells);
+          }
+          updateCornerCells();
+          // update snake
           setSnakeCells(newSnakeCells);
           setMovesCount(movesCount + 1);
         } else {
@@ -284,7 +253,7 @@ const Grid = () => {
         setOpositeDirection(opposite);
         setLastDirection(directionToTake);
       }
-    }, 100);
+    }, 500);
 
     //Clearing the interval
     return () => clearInterval(interval);
@@ -312,7 +281,10 @@ const Grid = () => {
               {cells.map((cell, actCell) => (
                 <div
                   key={actCell}
-                  className={`grid__cell ${checkCellType(actCell, actRow)}`}
+                  className={`grid__cell ${checkCellType(
+                    actCell,
+                    actRow
+                  )} ${checkCornerType(actCell, actRow)}`}
                 ></div>
               ))}
             </div>
