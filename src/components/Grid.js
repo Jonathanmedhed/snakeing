@@ -4,6 +4,7 @@ import Overlay from "./Overlay";
 import StatsBar from "./StatsBar";
 import { getRandom } from "../utils/functions";
 import snakeHead from "../images/snake-head.webp";
+import snakeHeadNo from "../images/snake-head-no.webp";
 
 const Grid = () => {
   // for the active direction
@@ -38,6 +39,7 @@ const Grid = () => {
 
   // Snake status
   const [isCrashed, setIsCrashed] = useState(false);
+  const [showTongue, setShowTongue] = useState(false);
 
   // Game Stats
   const [score, setScore] = useState(0);
@@ -288,6 +290,8 @@ const Grid = () => {
           setIsCrashed(true);
           setShowScreen(true);
         }
+        // show or hide thongue
+        setShowTongue(!showTongue);
         // set oposite direction so the snake don't go the opposite direction e.g: from right to left.
         setOpositeDirection(opposite);
         // set last direction to compared to the next one
@@ -327,12 +331,26 @@ const Grid = () => {
                 >
                   {checkIfContact(actCell, actRow, snakeCells) &&
                     snakeCells[snakeCells.length - 1].x === actCell &&
-                    snakeCells[snakeCells.length - 1].y === actRow && (
+                    snakeCells[snakeCells.length - 1].y === actRow &&
+                    (showTongue ? (
                       <img
                         alt="head"
                         className={`snake-head --${direction || "neutral"}`}
                         src={snakeHead}
                       />
+                    ) : (
+                      <img
+                        alt="head"
+                        className={`snake-head --no-tongue --${
+                          direction || "neutral"
+                        }`}
+                        src={snakeHeadNo}
+                      />
+                    ))}
+                  {checkIfContact(actCell, actRow, snakeCells) &&
+                    snakeCells[0].x === actCell &&
+                    snakeCells[0].y === actRow && (
+                      <div className="snake-tail"></div>
                     )}
                 </div>
               ))}

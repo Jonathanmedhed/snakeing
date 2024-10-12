@@ -2773,7 +2773,7 @@ Images
   border: solid 1px black;
 }
 .grid .snake-cell {
-  background-color: black;
+  background-color: #a1c432;
 }
 .grid .snake-cell.--crashed {
   background-color: red;
@@ -2782,9 +2782,7 @@ Images
   background-color: white;
 }
 .grid .snake-cell.--tail {
-  background-color: brown;
-  -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-          clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  background: none;
 }
 .grid .snake-cell.--tail.--right, .grid .snake-cell.--tail.--neutral {
   transform: rotate(270deg);
@@ -2795,6 +2793,12 @@ Images
 .grid .snake-cell.--tail.--left {
   transform: rotate(90deg);
 }
+.grid .snake-tail {
+  height: 100%;
+  background-color: #a1c432;
+  -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+          clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
 .grid .target-cell {
   background-color: blue;
 }
@@ -2802,7 +2806,7 @@ Images
   background-color: green;
 }
 .grid .--corner-cell {
-  background-color: brown;
+  background-color: #a1c432;
 }
 .grid .--corner-cell.--right-up {
   -webkit-clip-path: polygon(100% 0, 0 100%, 100% 100%);
@@ -2857,6 +2861,22 @@ Images
 }
 .grid .snake-head.--up {
   top: -1.6rem;
+  left: -0.4rem;
+}
+.grid .snake-head.--no-tongue.--right, .grid .snake-head.--no-tongue.--neutral {
+  top: -0.3rem;
+  left: -0.3rem;
+}
+.grid .snake-head.--no-tongue.--down {
+  top: -0.2rem;
+  left: -0.4rem;
+}
+.grid .snake-head.--no-tongue.--left {
+  top: -0.4rem;
+  left: -0.6rem;
+}
+.grid .snake-head.--no-tongue.--up {
+  top: -0.5rem;
   left: -0.4rem;
 }
 

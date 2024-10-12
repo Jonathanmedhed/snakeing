@@ -5,6 +5,9 @@ $width-lg: 1008px;
 $width-xl: 1600px;
 /** Colors */
 /** Main Color Scheme */
+$green-light-color: #a1c432ff;
+$green-dark-color: #536d17ff;
+$red-color: #e91a40ff;
 $green-color: #10a788;
 $blue-color: rgb(0, 149, 246);
 $purple-color: #784cc7;
@@ -85,7 +88,7 @@ $sizeamounts: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
 /** Margin & Padding */
 $spaceamounts: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-$spacetypes: ('half', 'qtr');
+$spacetypes: ("half", "qtr");
 @each $space in $spaceamounts {
   /** Margin */
   // All around margin
