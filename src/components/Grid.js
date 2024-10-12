@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import KeyListener from "./KeyListener";
-import { getRandom } from "../utils/functions";
 import Overlay from "./Overlay";
+import StatsBar from "./StatsBar";
+import { getRandom } from "../utils/functions";
+import snakeHead from "../images/snake-head.webp";
 
 const Grid = () => {
   // for the active direction
@@ -26,6 +28,7 @@ const Grid = () => {
     { x: 6, y: 0 },
     { x: 7, y: 0 },
   ]);
+
   // Target cells
   const [targetCells, setTargetCells] = useState([
     { x: Math.floor(cellAmount / 2), y: Math.floor(cellAmount / 2) },
@@ -35,6 +38,11 @@ const Grid = () => {
 
   // Snake status
   const [isCrashed, setIsCrashed] = useState(false);
+
+  // Game Stats
+  const [score, setScore] = useState(0);
+  const [health, setHealth] = useState(0);
+  const [stamina, setStamina] = useState(0);
 
   // Show screens
   const [showScreen, setShowScreen] = useState(false);
@@ -135,8 +143,10 @@ const Grid = () => {
     setTargetCells(newTargets);
   };
 
-  // Remove corners cells that are not snake cells
-  const updateCornerCells = () => {
+  /**
+   * Remove corners cells that are not snake cells
+   */
+  const deleteCornerCells = () => {
     cornerCells.forEach((cCell) => {
       if (!checkIfContact(cCell.x, cCell.y, snakeCells)) {
         let newCorners = cornerCells.filter((cell) => {
@@ -147,7 +157,9 @@ const Grid = () => {
     });
   };
 
-  // Return game to initial states
+  /**
+   * Returns game to initial states
+   */
   const restartGame = () => {
     setDirection(false);
     setSnakeCells([
@@ -157,6 +169,14 @@ const Grid = () => {
     ]);
     setMovesCount(0);
     setIsCrashed(false);
+  };
+
+  const onEat = () => {
+    let staValue = stamina + 10 > 100 ? 100 : stamina + 10;
+    setStamina(staValue);
+    let healValue = health + 10 > 100 ? 100 : health + 10;
+    setHealth(healValue);
+    setScore(score + 10);
   };
 
   useEffect(() => {
@@ -174,7 +194,7 @@ const Grid = () => {
       if (directionToTake === oppositeDirection) {
         directionToTake = lastDirection;
       }
-
+      // Assign values depending on direction
       switch (directionToTake) {
         case "up":
           newX = false;
@@ -204,6 +224,7 @@ const Grid = () => {
           break;
       }
 
+      // Asign x and y to new cell
       const newCellX = snakeCells[snakeCells.length - 1].x + newX || 0;
       const newCellY = snakeCells[snakeCells.length - 1].y + newY || 0;
 
@@ -222,9 +243,10 @@ const Grid = () => {
             y: newCellY,
             direction: directionToTake,
           });
-          // update targers
+          // if collided with target, update targets and other stats
           if (checkIfContact(newCellX, newCellY, targetCells)) {
             addNewTarget(newCellX, newCellY);
+            onEat();
           }
           // if not collided remove last cell (to remain same snake size)
           if (
@@ -235,7 +257,7 @@ const Grid = () => {
           ) {
             newSnakeCells.shift();
           }
-          // Check if last snake cell is a corner, if it is, remove lsat from corners
+          // Check if last snake cell is a corner, if it is, remove last cell from corner cells
           if (
             cornerCells.length >= 1 &&
             cornerCells[0].x === snakeCells[0].x &&
@@ -243,7 +265,7 @@ const Grid = () => {
           ) {
             newCornerCells.shift();
           }
-          // create corner cells on turn
+          // if direction is different to the previous direction, create corner cell and add it to corner cells
           if (directionToTake !== lastDirection) {
             let newCornerCell = {
               x: snakeCells[snakeCells.length - 2].x,
@@ -255,7 +277,8 @@ const Grid = () => {
             newCornerCells.push(newCornerCell);
             setCornerCells(newCornerCells);
           }
-          updateCornerCells();
+          // delete corner cells that are not in snake cells
+          deleteCornerCells();
           // update snake
           setSnakeCells(newSnakeCells);
           // update moves count so useEffect continues
@@ -265,7 +288,9 @@ const Grid = () => {
           setIsCrashed(true);
           setShowScreen(true);
         }
+        // set oposite direction so the snake don't go the opposite direction e.g: from right to left.
         setOpositeDirection(opposite);
+        // set last direction to compared to the next one
         setLastDirection(directionToTake);
       }
     }, 100);
@@ -288,9 +313,8 @@ const Grid = () => {
         </span>
       </Overlay>
       <div className="grid">
-        grid
         <div className="grid__container">
-          grid container
+          <StatsBar score={score} health={health} stamina={stamina} />
           {rows.map((row, actRow) => (
             <div key={actRow} className="grid__row">
               {cells.map((cell, actCell) => (
@@ -300,7 +324,17 @@ const Grid = () => {
                     actCell,
                     actRow
                   )} ${checkCornerType(actCell, actRow)}`}
-                ></div>
+                >
+                  {checkIfContact(actCell, actRow, snakeCells) &&
+                    snakeCells[snakeCells.length - 1].x === actCell &&
+                    snakeCells[snakeCells.length - 1].y === actRow && (
+                      <img
+                        alt="head"
+                        className={`snake-head --${direction || "neutral"}`}
+                        src={snakeHead}
+                      />
+                    )}
+                </div>
               ))}
             </div>
           ))}

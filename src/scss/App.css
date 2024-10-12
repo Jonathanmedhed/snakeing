@@ -2751,6 +2751,7 @@ Images
 .grid {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   border: solid 2px red;
 }
@@ -2761,14 +2762,14 @@ Images
 }
 .grid__row {
   width: 100%;
-  height: 3vw;
+  height: 2vw;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
 }
 .grid__cell {
-  width: 3vw;
-  height: 3vw;
+  width: 2vw;
+  height: 2vw;
   border: solid 1px black;
 }
 .grid .snake-cell {
@@ -2778,18 +2779,7 @@ Images
   background-color: red;
 }
 .grid .snake-cell.--head {
-  background-color: green;
-  -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-          clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
-.grid .snake-cell.--head.--right, .grid .snake-cell.--head.--neutral {
-  transform: rotate(90deg);
-}
-.grid .snake-cell.--head.--down {
-  transform: rotate(180deg);
-}
-.grid .snake-cell.--head.--left {
-  transform: rotate(270deg);
+  background-color: white;
 }
 .grid .snake-cell.--tail {
   background-color: brown;
@@ -2846,6 +2836,29 @@ Images
   -webkit-clip-path: polygon(0 0, 100% 100%, 100% 0);
           clip-path: polygon(0 0, 100% 100%, 100% 0);
 }
+.grid .snake-head {
+  position: relative;
+  width: 2.8vw;
+}
+.grid .snake-head.--right, .grid .snake-head.--neutral {
+  top: -0.9rem;
+  left: 0.3rem;
+  transform: rotate(90deg);
+}
+.grid .snake-head.--down {
+  transform: rotate(180deg);
+  top: -0.2rem;
+  left: -0.4rem;
+}
+.grid .snake-head.--left {
+  transform: rotate(270deg);
+  top: -0.9rem;
+  left: -1.1rem;
+}
+.grid .snake-head.--up {
+  top: -1.6rem;
+  left: -0.4rem;
+}
 
 .overlay {
   position: fixed;
@@ -2867,6 +2880,60 @@ Images
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.stats {
+  width: 100%;
+}
+.stats__list {
+  display: flex;
+  flex-direction: column;
+}
+.stats__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.stats__score {
+  width: 100%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.5rem;
+  text-align: end;
+  color: black;
+}
+.stats__item-bar {
+  width: 100%;
+  min-height: 0.75rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.stats__item-bar.health {
+  background-color: rgb(255, 130, 130);
+}
+.stats__item-bar.stamina {
+  background-color: rgb(129, 129, 255);
+}
+.stats__item-amount {
+  min-height: 0.75rem;
+  padding: 0 0.5rem;
+  border-radius: 0.5rem;
+  background-color: rgb(224, 224, 224);
+  color: white;
+  font-weight: bold;
+}
+.stats__item-amount.health {
+  background-color: red;
+}
+.stats__item-amount.stamina {
+  background-color: blue;
+}
+.stats__item-amount.anxiety {
+  background-color: green;
+}
+.stats__item-amount.cholesterol {
+  background-color: black;
 }
 
 /** Main Config */
