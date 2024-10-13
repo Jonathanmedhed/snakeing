@@ -1,6 +1,6 @@
 import React from "react";
 
-const StatsBar = ({ title, score, health, anxiety, cholesterol, stamina }) => {
+const StatsBar = ({ health, power, score, stamina }) => {
   const stats = [
     //{className: "score", label: "Score", value: score },
     { className: "health", label: "Health", value: health },
@@ -11,7 +11,6 @@ const StatsBar = ({ title, score, health, anxiety, cholesterol, stamina }) => {
      */
   ];
 
-  console.log(stats);
   return (
     <div className="stats">
       <div className="stats__content">
@@ -29,7 +28,8 @@ const StatsBar = ({ title, score, health, anxiety, cholesterol, stamina }) => {
             </div>
           ))}
 
-          <div className="stats__score">{score}</div>
+          <div className="stats__score">{`Score: ${score}`}</div>
+          <div className="stats__score">{`Power: ${power}`}</div>
         </div>
       </div>
     </div>

@@ -2799,9 +2799,6 @@ Images
   -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
           clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
-.grid .target-cell {
-  background-color: blue;
-}
 .grid .collided-cell {
   background-color: green;
 }
@@ -2878,6 +2875,12 @@ Images
 .grid .snake-head.--no-tongue.--up {
   top: -0.5rem;
   left: -0.4rem;
+}
+.grid .target-img {
+  max-height: 2vw;
+}
+.grid .target-img.--danger {
+  background-color: red;
 }
 
 .overlay {

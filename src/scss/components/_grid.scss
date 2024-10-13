@@ -50,7 +50,6 @@
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   }
   .target-cell {
-    background-color: blue;
   }
   .collided-cell {
     background-color: green;
@@ -123,6 +122,12 @@
         top: -0.5rem;
         left: -0.4rem;
       }
+    }
+  }
+  .target-img {
+    max-height: 2vw;
+    &.--danger {
+      background-color: red;
     }
   }
 }

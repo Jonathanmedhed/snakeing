@@ -4,7 +4,23 @@ import Overlay from "./Overlay";
 import StatsBar from "./StatsBar";
 import { getRandom } from "../utils/functions";
 import snakeHead from "../images/snake-head.webp";
+import snakeHeadDead from "../images/snake-head-dead.webp";
 import snakeHeadNo from "../images/snake-head-no.webp";
+import cat from "../images/cat.svg";
+import cow from "../images/cow.svg";
+import crow from "../images/crow.svg";
+import dog from "../images/dog.svg";
+import dove from "../images/dove.svg";
+import dragon from "../images/dragon.svg";
+import frog from "../images/frog.svg";
+import hippo from "../images/hippo.svg";
+import horse from "../images/horse.svg";
+import kiwi from "../images/kiwi.svg";
+import locust from "../images/locust.svg";
+import otter from "../images/otter.svg";
+import person from "../images/person.svg";
+import personMilitary from "../images/person-military.svg";
+import personRifle from "../images/person-rifle.svg";
 
 const Grid = () => {
   // for the active direction
@@ -30,10 +46,33 @@ const Grid = () => {
     { x: 7, y: 0 },
   ]);
 
+  const targets = [
+    { media: locust, name: "locust", type: false, power: 10 },
+    { media: frog, name: "frog", type: false, power: 10 },
+    { media: dove, name: "dove", type: false, power: 15 },
+    { media: crow, name: "crow", type: false, power: 20 },
+    { media: kiwi, name: "kiwi", type: false, power: 25 },
+    { media: cat, name: "cat", type: false, power: 30 },
+    { media: dog, name: "dog", type: false, power: 35 },
+    { media: otter, name: "otter", type: false, power: 40 },
+    { media: person, name: "person", type: false, power: 55 },
+    { media: cow, name: "cow", type: false, power: 75 },
+    { media: horse, name: "horse", type: false, power: 95 },
+    { media: hippo, name: "hippo", type: false, power: 115 },
+    { media: personMilitary, name: "person-military", type: false, power: 135 },
+    { media: personRifle, name: "person-rifle", type: false, power: 155 },
+    { media: dragon, name: "dragon", type: false, power: 1000 },
+  ];
+
   // Target cells
   const [targetCells, setTargetCells] = useState([
-    { x: Math.floor(cellAmount / 2), y: Math.floor(cellAmount / 2) },
+    {
+      x: Math.floor(cellAmount / 2),
+      y: Math.floor(cellAmount / 2),
+      target: targets[getRandom(0, 2)],
+    },
   ]);
+
   // Corner cells
   const [cornerCells, setCornerCells] = useState([]);
 
@@ -43,8 +82,9 @@ const Grid = () => {
 
   // Game Stats
   const [score, setScore] = useState(0);
-  const [health, setHealth] = useState(0);
-  const [stamina, setStamina] = useState(0);
+  const [health, setHealth] = useState(100);
+  const [stamina, setStamina] = useState(100);
+  const [power, setPower] = useState(10);
 
   // Show screens
   const [showScreen, setShowScreen] = useState(false);
@@ -108,12 +148,25 @@ const Grid = () => {
    * @param {Number} y number of row in frid (from 0(top) to 0+(down))
    * @returns
    */
-  const checkCornerType = (x, y) => {
+  const getCornerType = (x, y) => {
     if (checkIfContact(x, y, cornerCells)) {
       let index = cornerCells.findIndex((cell) => cell.x === x && cell.y === y);
       return cornerCells[index].className;
     } else {
       return "";
+    }
+  };
+
+  /**
+   * @description Returns cell className
+   * @param {Number} x number of cell in row (from 0(top) to 0+(down))
+   * @param {Number} y number of row in frid (from 0(top) to 0+(down))
+   * @returns
+   */
+  const getTargetType = (x, y) => {
+    if (checkIfContact(x, y, targetCells)) {
+      let index = targetCells.findIndex((cell) => cell.x === x && cell.y === y);
+      return targetCells[index];
     }
   };
 
@@ -126,14 +179,16 @@ const Grid = () => {
     let newTarget = {
       x: getRandom(0, cellAmount - 1),
       y: getRandom(0, cellAmount - 1),
+      target: targets[getRandom(0, targets.length - 1)],
     };
 
     // change target if is includen in snakes cells
-    if (checkIfContact(newTarget.x, newTarget.y, snakeCells)) {
-      newTarget = {
-        x: getRandom(0, cellAmount - 1),
-        y: getRandom(0, cellAmount - 1),
-      };
+    while (
+      checkIfContact(newTarget.x, newTarget.y, snakeCells) ||
+      checkIfContact(newTarget.x, newTarget.y, targetCells)
+    ) {
+      newTarget.x = getRandom(0, cellAmount - 1);
+      newTarget.y = getRandom(0, cellAmount - 1);
     }
 
     // remove target collided
@@ -173,12 +228,22 @@ const Grid = () => {
     setIsCrashed(false);
   };
 
-  const onEat = () => {
-    let staValue = stamina + 10 > 100 ? 100 : stamina + 10;
-    setStamina(staValue);
-    let healValue = health + 10 > 100 ? 100 : health + 10;
-    setHealth(healValue);
+  const onEat = (targetPower) => {
+    let healValue;
+    let staValue;
+    if (targetPower <= power) {
+      staValue = stamina + 10 > 100 ? 100 : stamina + 10;
+      setStamina(staValue);
+      healValue = health + 10 > 100 ? 100 : health + 10;
+      setHealth(healValue);
+    } else {
+      staValue = stamina + 1 > 100 ? 100 : stamina + 1;
+      setStamina(staValue);
+      healValue = health - 10 <= 0 ? 0 : health - 10;
+      setHealth(healValue);
+    }
     setScore(score + 10);
+    setPower(power + 1);
   };
 
   useEffect(() => {
@@ -233,12 +298,17 @@ const Grid = () => {
       // if directionToTake selected and hasn't crashed
       if (directionToTake && !isCrashed) {
         // if collide with self, crash
-        if (snakeCells.some((e) => e.x === newCellX && e.y === newCellY)) {
+        if (
+          snakeCells.some((e) => e.x === newCellX && e.y === newCellY) ||
+          stamina === 0
+        ) {
           setIsCrashed(true);
           setShowScreen(true);
         }
         // if inside grid limits
         if (isInLimits) {
+          // update stamina
+          setStamina(stamina - 0.5);
           // add new cell to head (move next cell)
           newSnakeCells.push({
             x: newCellX,
@@ -248,7 +318,7 @@ const Grid = () => {
           // if collided with target, update targets and other stats
           if (checkIfContact(newCellX, newCellY, targetCells)) {
             addNewTarget(newCellX, newCellY);
-            onEat();
+            onEat(getTargetType(newCellX, newCellY)?.target?.power);
           }
           // if not collided remove last cell (to remain same snake size)
           if (
@@ -290,6 +360,10 @@ const Grid = () => {
           setIsCrashed(true);
           setShowScreen(true);
         }
+        // Add 1 more target if less than 3
+        if (targetCells.length < 3) {
+          addNewTarget(newCellX, newCellY);
+        }
         // show or hide thongue
         setShowTongue(!showTongue);
         // set oposite direction so the snake don't go the opposite direction e.g: from right to left.
@@ -318,7 +392,12 @@ const Grid = () => {
       </Overlay>
       <div className="grid">
         <div className="grid__container">
-          <StatsBar score={score} health={health} stamina={stamina} />
+          <StatsBar
+            health={health}
+            power={power}
+            score={score}
+            stamina={stamina}
+          />
           {rows.map((row, actRow) => (
             <div key={actRow} className="grid__row">
               {cells.map((cell, actCell) => (
@@ -327,12 +406,19 @@ const Grid = () => {
                   className={`grid__cell ${checkCellType(
                     actCell,
                     actRow
-                  )} ${checkCornerType(actCell, actRow)}`}
+                  )} ${getCornerType(actCell, actRow)}`}
                 >
+                  {/** check if is snake cell */}
                   {checkIfContact(actCell, actRow, snakeCells) &&
                     snakeCells[snakeCells.length - 1].x === actCell &&
                     snakeCells[snakeCells.length - 1].y === actRow &&
-                    (showTongue ? (
+                    (isCrashed ? (
+                      <img
+                        alt="head"
+                        className={`snake-head --${direction || "neutral"}`}
+                        src={snakeHeadDead}
+                      />
+                    ) : showTongue ? (
                       <img
                         alt="head"
                         className={`snake-head --${direction || "neutral"}`}
@@ -347,11 +433,29 @@ const Grid = () => {
                         src={snakeHeadNo}
                       />
                     ))}
+                  {/** check if is tail cell */}
                   {checkIfContact(actCell, actRow, snakeCells) &&
                     snakeCells[0].x === actCell &&
                     snakeCells[0].y === actRow && (
                       <div className="snake-tail"></div>
                     )}
+                  {/** check if is target */}
+                  {checkIfContact(actCell, actRow, targetCells) && (
+                    <div className="target-target">
+                      {getTargetType(actCell, actRow) && (
+                        <img
+                          alt={getTargetType(actCell, actRow)?.target?.name}
+                          className={`target-img ${
+                            getTargetType(actCell, actRow)?.target?.power >
+                            power
+                              ? "--danger"
+                              : ""
+                          }`}
+                          src={getTargetType(actCell, actRow)?.target?.media}
+                        />
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
