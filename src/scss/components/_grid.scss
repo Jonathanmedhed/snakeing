@@ -124,10 +124,13 @@
       }
     }
   }
-  .target-img {
-    max-height: 2vw;
+  .target {
+    overflow: hidden;
     &.--danger {
       background-color: red;
+    }
+    .target-img {
+      height: 1.6vw;
     }
   }
 }

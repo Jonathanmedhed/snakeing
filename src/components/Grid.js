@@ -3,9 +3,9 @@ import KeyListener from "./KeyListener";
 import Overlay from "./Overlay";
 import StatsBar from "./StatsBar";
 import { getRandom } from "../utils/functions";
-import snakeHead from "../images/snake-head.webp";
-import snakeHeadDead from "../images/snake-head-dead.webp";
-import snakeHeadNo from "../images/snake-head-no.webp";
+import snakeHead from "../images/snake-head.svg";
+import snakeHeadDead from "../images/snake-head-dead.svg";
+import snakeHeadNo from "../images/snake-head-no.svg";
 import cat from "../images/cat.svg";
 import cow from "../images/cow.svg";
 import crow from "../images/crow.svg";
@@ -24,7 +24,7 @@ import personRifle from "../images/person-rifle.svg";
 
 const Grid = () => {
   // for the active direction
-  const [direction, setDirection] = useState(false);
+  const [direction, setDirection] = useState("right");
   const [oppositeDirection, setOpositeDirection] = useState(false);
   const [lastDirection, setLastDirection] = useState(false);
   const [movesCount, setMovesCount] = useState(0);
@@ -114,32 +114,23 @@ const Grid = () => {
   };
 
   /**
-   * @description Returns cell className
+   * @description Returns tail direction className
    * @param {Number} x number of cell in row (from 0(top) to 0+(down))
    * @param {Number} y number of row in frid (from 0(top) to 0+(down))
    * @returns
    */
-  const checkCellType = (x, y) => {
+  const getTailDirection = (x, y) => {
     // get index if snake cell, so direction can be used
     let index = snakeCells.findIndex((cell) => cell.x === x && cell.y === y);
     return `${
       checkIfContact(x, y, snakeCells)
         ? `snake-cell ${
-            snakeCells[snakeCells.length - 1].x === x &&
-            snakeCells[snakeCells.length - 1].y === y
-              ? `--head --${direction || "neutral"}`
-              : ""
-          } ${
             snakeCells[0].x === x && snakeCells[0].y === y
               ? `--tail --${snakeCells[index + 1].direction || "neutral"}`
               : ""
           }`
         : ""
-    } ${checkIfContact(x, y, targetCells) ? "target-cell" : ""} ${
-      checkIfContact(x, y, snakeCells) && checkIfContact(x, y, targetCells)
-        ? "collided-cell"
-        : ""
-    } ${isCrashed ? "--crashed" : ""}`;
+    }`;
   };
 
   /**
@@ -214,6 +205,31 @@ const Grid = () => {
     });
   };
 
+  /**
+   * Return head type component
+   */
+  const snakeHeadClass = `--${
+    direction === oppositeDirection ? lastDirection : direction || "neutral"
+  }`;
+  const SnakeHead = isCrashed ? (
+    <img
+      alt="head"
+      className={`snake-head ${snakeHeadClass}`}
+      src={snakeHeadDead}
+    />
+  ) : showTongue ? (
+    <img
+      alt="head"
+      className={`snake-head ${snakeHeadClass}`}
+      src={snakeHead}
+    />
+  ) : (
+    <img
+      alt="head"
+      className={`snake-head --no-tongue ${snakeHeadClass}`}
+      src={snakeHeadNo}
+    />
+  );
   /**
    * Returns game to initial states
    */
@@ -403,37 +419,19 @@ const Grid = () => {
               {cells.map((cell, actCell) => (
                 <div
                   key={actCell}
-                  className={`grid__cell ${checkCellType(
+                  className={`grid__cell ${getTailDirection(
                     actCell,
                     actRow
-                  )} ${getCornerType(actCell, actRow)}`}
+                  )} ${getCornerType(actCell, actRow)} ${
+                    isCrashed ? "--crashed" : ""
+                  }`}
                 >
-                  {/** check if is snake cell */}
+                  {/** check if is snake head */}
                   {checkIfContact(actCell, actRow, snakeCells) &&
                     snakeCells[snakeCells.length - 1].x === actCell &&
                     snakeCells[snakeCells.length - 1].y === actRow &&
-                    (isCrashed ? (
-                      <img
-                        alt="head"
-                        className={`snake-head --${direction || "neutral"}`}
-                        src={snakeHeadDead}
-                      />
-                    ) : showTongue ? (
-                      <img
-                        alt="head"
-                        className={`snake-head --${direction || "neutral"}`}
-                        src={snakeHead}
-                      />
-                    ) : (
-                      <img
-                        alt="head"
-                        className={`snake-head --no-tongue --${
-                          direction || "neutral"
-                        }`}
-                        src={snakeHeadNo}
-                      />
-                    ))}
-                  {/** check if is tail cell */}
+                    SnakeHead}
+                  {/** check if is snake tail */}
                   {checkIfContact(actCell, actRow, snakeCells) &&
                     snakeCells[0].x === actCell &&
                     snakeCells[0].y === actRow && (
@@ -441,16 +439,17 @@ const Grid = () => {
                     )}
                   {/** check if is target */}
                   {checkIfContact(actCell, actRow, targetCells) && (
-                    <div className="target-target">
+                    <div
+                      className={`target ${
+                        getTargetType(actCell, actRow)?.target?.power > power
+                          ? "--danger"
+                          : ""
+                      }`}
+                    >
                       {getTargetType(actCell, actRow) && (
                         <img
                           alt={getTargetType(actCell, actRow)?.target?.name}
-                          className={`target-img ${
-                            getTargetType(actCell, actRow)?.target?.power >
-                            power
-                              ? "--danger"
-                              : ""
-                          }`}
+                          className={`target-img`}
                           src={getTargetType(actCell, actRow)?.target?.media}
                         />
                       )}

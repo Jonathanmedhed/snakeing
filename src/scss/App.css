@@ -2876,11 +2876,14 @@ Images
   top: -0.5rem;
   left: -0.4rem;
 }
-.grid .target-img {
-  max-height: 2vw;
+.grid .target {
+  overflow: hidden;
 }
-.grid .target-img.--danger {
+.grid .target.--danger {
   background-color: red;
+}
+.grid .target .target-img {
+  height: 1.6vw;
 }
 
 .overlay {
