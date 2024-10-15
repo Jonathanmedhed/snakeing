@@ -5,6 +5,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   &__container {
     max-height: 100vh;
     display: flex;
@@ -58,9 +59,11 @@
       &.--right,
       &.--neutral {
         transform: rotate(270deg);
+        -webkit-transform: rotate(270deg);
       }
       &.--up {
         transform: rotate(180deg);
+        -webkit-transform: rotate(180deg);
         border-top: none;
       }
       &.--down {
@@ -69,6 +72,7 @@
       }
       &.--left {
         transform: rotate(90deg);
+        -webkit-transform: rotate(90deg);
         border-top: none;
         border-right: none;
         border-left: solid 0.1vw black;
@@ -119,14 +123,17 @@
       top: -0.95vw;
       left: 0.3vw;
       transform: rotate(90deg);
+      -webkit-transform: rotate(90deg);
     }
     &.--down {
       transform: rotate(180deg);
+      -webkit-transform: rotate(180deg);
       top: -0.2vw;
       left: -0.48vw;
     }
     &.--left {
       transform: rotate(270deg);
+      -webkit-transform: rotate(270deg);
       top: -0.9vw;
       left: -1.1vw;
     }
@@ -140,14 +147,17 @@
         top: -0.4vw;
         left: -0.5vw;
         transform: rotate(90deg);
+        -webkit-transform: rotate(90deg);
       }
       &.--down {
         transform: rotate(180deg);
+        -webkit-transform: rotate(180deg);
         top: -0.2vw;
         left: -0.4vw;
       }
       &.--left {
         transform: rotate(270deg);
+        -webkit-transform: rotate(270deg);
         top: -0.35vw;
         left: -0.6vw;
       }
@@ -170,8 +180,7 @@
 
 @media (max-width: 1008px) {
   .grid {
-    justify-content: start;
-    padding-top: 2vw;
+    padding-top: 2rem;
     &__container {
       border: solid 0.3vw black;
       border-radius: 0.5vw;
@@ -247,6 +256,9 @@
 
 @media (max-width: 640px) {
   .grid {
+    padding-bottom: 3rem;
+    justify-content: space-between;
+    border: solid 2px red;
     &__container {
       border: none;
       border-radius: 0.5vw;

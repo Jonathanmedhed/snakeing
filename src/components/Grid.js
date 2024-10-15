@@ -21,6 +21,7 @@ import otter from "../images/otter.svg";
 import person from "../images/person.svg";
 import personMilitary from "../images/person-military.svg";
 import personRifle from "../images/person-rifle.svg";
+import ArrowController from "./ArrowController";
 
 const Grid = () => {
   // for the active direction
@@ -460,6 +461,7 @@ const Grid = () => {
             </div>
           ))}
         </div>
+        <ArrowController selectDirection={setDirection} />
       </div>
     </KeyListener>
   );
