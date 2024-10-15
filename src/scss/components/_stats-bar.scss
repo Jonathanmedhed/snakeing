@@ -1,5 +1,19 @@
 .stats {
   width: 100%;
+  &__title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1vw;
+    h1 {
+      font-size: 1.5vw;
+      line-height: 1.6vw;
+      margin-bottom: 1vw;
+    }
+    img {
+      width: 3.5vw;
+    }
+  }
   &__list {
     display: flex;
     flex-direction: column;
@@ -10,18 +24,10 @@
     align-items: center;
     justify-content: space-between;
   }
-  &__score {
-    width: 100%;
-    font-size: 1.5rem;
-    font-weight: bold;
-    line-height: 1.5rem;
-    text-align: end;
-    color: black;
-  }
   &__item-bar {
     width: 100%;
-    min-height: 0.75rem;
-    border-radius: 0.5rem;
+    height: 1.4vw;
+    border-radius: 0.5vw;
     overflow: hidden;
 
     &.health {
@@ -32,23 +38,117 @@
     }
   }
   &__item-amount {
-    min-height: 0.75rem;
-    padding: 0 0.5rem;
-    border-radius: 0.5rem;
+    height: 1.4vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.1vw 0.5vw;
+    border-radius: 0.5vw;
     background-color: rgb(224, 224, 224);
     color: white;
     font-weight: bold;
+    font-size: 0.9vw;
     &.health {
       background-color: red;
     }
     &.stamina {
       background-color: blue;
     }
-    &.anxiety {
-      background-color: green;
+  }
+  &__scores {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 0.5vw;
+  }
+  &__score {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    font-size: 1vw;
+    line-height: 1.1vw;
+    font-weight: bold;
+    color: black;
+    img {
+      width: 1vw;
+      margin-left: 0.5vw;
     }
-    &.cholesterol {
-      background-color: black;
+  }
+}
+
+@media (max-width: 1008px) {
+  .stats {
+    &__title {
+      margin-bottom: 1rem;
+      h1 {
+        font-size: 1.3rem;
+        line-height: 1.4rem;
+        margin-bottom: 1rem;
+      }
+      img {
+        width: 3.5rem;
+      }
+    }
+    &__item-bar {
+      height: 1.2rem;
+      border-radius: 0.5rem;
+    }
+    &__item-amount {
+      height: 1.2rem;
+      padding: 0.1rem 0.5rem;
+      border-radius: 0.5rem;
+      font-size: 0.8rem;
+    }
+    &__scores {
+      padding: 0.5rem;
+    }
+    &__score {
+      font-size: 0.9rem;
+      line-height: 1rem;
+      img {
+        width: 0.9rem;
+        margin-left: 0.5rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .stats {
+    &__title {
+      margin-bottom: 2vw;
+      h1 {
+        font-size: 3vw;
+        line-height: 3.1vw;
+        margin-bottom: 2vw;
+      }
+      img {
+        width: 12vw;
+      }
+    }
+    &__item-bar {
+      height: 3vw;
+      border-radius: 1.5vw;
+    }
+    &__item-amount {
+      height: 3vw;
+      padding: 0.5vw 1vw;
+      border-radius: 1.5vw;
+      font-size: 2.2vw;
+      line-height: 2.3vw;
+    }
+    &__scores {
+      padding: 1vw;
+    }
+    &__score {
+      font-size: 2.2vw;
+      line-height: 2.3vw;
+      img {
+        width: 2.5vw;
+        margin-left: 0.5rem;
+      }
     }
   }
 }

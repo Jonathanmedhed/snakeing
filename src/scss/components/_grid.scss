@@ -1,61 +1,90 @@
 .grid {
+  height: 100vh;
+  width: 100vw;
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
-  border: solid 2px red;
+  justify-content: center;
   &__container {
+    max-height: 100vh;
     display: flex;
     flex-direction: column;
-    border: solid 2px green;
+    padding: 2vw;
+    border: solid 0.2vw black;
+    border-radius: 0.5vw;
   }
   &__row {
     width: 100%;
     height: 2vw;
+    max-height: 1.6rem;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    &:last-child {
+      border-bottom: solid 0.1vw black;
+    }
   }
   &__cell {
     width: 2vw;
+    max-width: 1.6rem;
     height: 2vw;
-    border: solid 1px black;
+    max-height: 1.6rem;
+    border-left: solid 0.1vw black;
+    border-top: solid 0.1vw black;
+    &:last-child {
+      border-right: solid 0.1vw black;
+    }
   }
   .snake-cell {
     background-color: $green-light-color;
-
+    border-top: solid 0.1vw $green-light-color;
+    border-right: solid 0.1vw $green-light-color;
+    border-bottom: solid 0.1vw $green-light-color;
+    border-left: solid 0.1vw $green-light-color;
+    /**
     &.--crashed {
       background-color: red;
     }
+    */
     &.--head {
       background-color: white;
     }
     &.--tail {
       background: none;
+      border-top: solid 0.1vw black;
+      border-right: solid 0.1vw black;
+      border-bottom: solid 0.1vw $green-light-color;
+      border-left: none;
       &.--right,
       &.--neutral {
         transform: rotate(270deg);
       }
       &.--up {
         transform: rotate(180deg);
+        border-top: none;
+      }
+      &.--down {
+        border-right: none;
+        border-left: solid 0.1vw black;
       }
       &.--left {
         transform: rotate(90deg);
+        border-top: none;
+        border-right: none;
+        border-left: solid 0.1vw black;
       }
     }
   }
   .snake-tail {
     height: 100%;
-    background-color: #a1c432ff;
+    background-color: $green-light-color;
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  }
-  .target-cell {
   }
   .collided-cell {
     background-color: green;
   }
   .--corner-cell {
-    background-color: #a1c432ff;
+    background-color: $green-light-color;
     &.--right-up {
       clip-path: polygon(100% 0, 0 100%, 100% 100%);
     }
@@ -84,43 +113,47 @@
   .snake-head {
     position: relative;
     width: 2.8vw;
+    max-width: 2.5rem;
     &.--right,
     &.--neutral {
-      top: -0.9rem;
-      left: 0.3rem;
+      top: -0.95vw;
+      left: 0.3vw;
       transform: rotate(90deg);
     }
     &.--down {
       transform: rotate(180deg);
-      top: -0.2rem;
-      left: -0.4rem;
+      top: -0.2vw;
+      left: -0.48vw;
     }
     &.--left {
       transform: rotate(270deg);
-      top: -0.9rem;
-      left: -1.1rem;
+      top: -0.9vw;
+      left: -1.1vw;
     }
     &.--up {
-      top: -1.6rem;
-      left: -0.4rem;
+      top: -1.6vw;
+      left: -0.4vw;
     }
     &.--no-tongue {
       &.--right,
       &.--neutral {
-        top: -0.3rem;
-        left: -0.3rem;
+        top: -0.4vw;
+        left: -0.5vw;
+        transform: rotate(90deg);
       }
       &.--down {
-        top: -0.2rem;
-        left: -0.4rem;
+        transform: rotate(180deg);
+        top: -0.2vw;
+        left: -0.4vw;
       }
       &.--left {
-        top: -0.4rem;
-        left: -0.6rem;
+        transform: rotate(270deg);
+        top: -0.35vw;
+        left: -0.6vw;
       }
       &.--up {
-        top: -0.5rem;
-        left: -0.4rem;
+        top: -0.6vw;
+        left: -0.43vw;
       }
     }
   }
@@ -131,6 +164,150 @@
     }
     .target-img {
       height: 1.6vw;
+    }
+  }
+}
+
+@media (max-width: 1008px) {
+  .grid {
+    justify-content: start;
+    padding-top: 2vw;
+    &__container {
+      border: solid 0.3vw black;
+      border-radius: 0.5vw;
+    }
+    &__row {
+      height: 4vw;
+      min-height: 1.5rem;
+    }
+    &__cell {
+      width: 4vw;
+      min-width: 1.5rem;
+      height: 4vw;
+      min-height: 1.5rem;
+    }
+    .snake-cell {
+      &.--tail {
+        background: none;
+        border-top: solid 0.1vw black;
+        border-right: solid 0.1vw black;
+        border-bottom: solid 0.1vw $green-light-color;
+        border-left: none;
+      }
+    }
+    .snake-head {
+      position: relative;
+      width: 2.8vw;
+      max-width: unset;
+      min-width: 2.4rem;
+      &.--right,
+      &.--neutral {
+        top: -0.85rem;
+        left: 0.1rem;
+      }
+      &.--down {
+        top: -0.45rem;
+        left: -0.45rem;
+      }
+      &.--left {
+        top: -0.9rem;
+        left: -1rem;
+      }
+      &.--up {
+        top: -1.4rem;
+        left: -0.45rem;
+      }
+      &.--no-tongue {
+        &.--right,
+        &.--neutral {
+          top: -0.35rem;
+          left: -0.45rem;
+        }
+        &.--down {
+          top: -0.3rem;
+          left: -0.45rem;
+        }
+        &.--left {
+          top: -0.4rem;
+          left: -0.45rem;
+        }
+        &.--up {
+          top: -0.37rem;
+          left: -0.43rem;
+        }
+      }
+    }
+    .target {
+      .target-img {
+        height: 1.4rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    &__container {
+      border: none;
+      border-radius: 0.5vw;
+    }
+    &__row {
+      height: 4vw;
+      min-height: unset;
+    }
+    &__cell {
+      width: 4vw;
+      min-width: unset;
+      height: 4vw;
+      min-height: unset;
+    }
+
+    .snake-head {
+      position: relative;
+      width: 5.6vw;
+      max-width: unset;
+      min-width: unset;
+      &.--right,
+      &.--neutral {
+        top: -0.75rem;
+        left: 0.1rem;
+      }
+      &.--down {
+        top: -0.3rem;
+        left: -0.31rem;
+      }
+      &.--left {
+        top: -0.7rem;
+        left: -0.8rem;
+      }
+      &.--up {
+        top: -1.2rem;
+        left: -0.3rem;
+      }
+      &.--no-tongue {
+        &.--right,
+        &.--neutral {
+          top: -0.3rem;
+          left: -0.4rem;
+        }
+        &.--down {
+          top: -0.33rem;
+          left: -0.36rem;
+        }
+        &.--left {
+          top: -0.3rem;
+          left: -0.42rem;
+        }
+        &.--up {
+          top: -0.35rem;
+          left: -0.32rem;
+        }
+      }
+    }
+    .target {
+      .target-img {
+        height: 3.1vw;
+      }
     }
   }
 }

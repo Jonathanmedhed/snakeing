@@ -114,12 +114,12 @@ const Grid = () => {
   };
 
   /**
-   * @description Returns tail direction className
+   * @description Returns the snake cells with the direction of the tail
    * @param {Number} x number of cell in row (from 0(top) to 0+(down))
    * @param {Number} y number of row in frid (from 0(top) to 0+(down))
    * @returns
    */
-  const getTailDirection = (x, y) => {
+  const getSnakeCells = (x, y) => {
     // get index if snake cell, so direction can be used
     let index = snakeCells.findIndex((cell) => cell.x === x && cell.y === y);
     return `${
@@ -419,7 +419,7 @@ const Grid = () => {
               {cells.map((cell, actCell) => (
                 <div
                   key={actCell}
-                  className={`grid__cell ${getTailDirection(
+                  className={`grid__cell ${getSnakeCells(
                     actCell,
                     actRow
                   )} ${getCornerType(actCell, actRow)} ${

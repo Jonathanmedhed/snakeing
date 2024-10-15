@@ -1,18 +1,20 @@
 import React from "react";
+import foodIcon from "../images/food.svg";
+import powerIcon from "../images/power.svg";
+import snakeIcon from "../images/snake.webp";
 
 const StatsBar = ({ health, power, score, stamina }) => {
   const stats = [
-    //{className: "score", label: "Score", value: score },
     { className: "health", label: "Health", value: health },
     { className: "stamina", label: "Stamina", value: stamina },
-    /**
-    { className: "anxiety", label: "Anxiety", value: anxiety },
-    { className: "cholesterol", label: "Cholesterol", value: cholesterol },
-     */
   ];
 
   return (
     <div className="stats">
+      <div className="stats__title">
+        <h1>Snaking!</h1>
+        <img alt="snake-icon" src={snakeIcon} />
+      </div>
       <div className="stats__content">
         <div className="stats__list">
           {stats?.map((stat, i) => (
@@ -27,9 +29,16 @@ const StatsBar = ({ health, power, score, stamina }) => {
               </div>
             </div>
           ))}
-
-          <div className="stats__score">{`Score: ${score}`}</div>
-          <div className="stats__score">{`Power: ${power}`}</div>
+          <div className="stats__scores">
+            <div className="stats__score">
+              {`Score: ${score}`}
+              <img alt="score" src={foodIcon} />
+            </div>
+            <div className="stats__score">
+              {`Power: ${power}`}
+              <img alt="power" src={powerIcon} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
