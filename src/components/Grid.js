@@ -209,7 +209,9 @@ const Grid = () => {
    * Return head type component
    */
   const snakeHeadClass = `--${
-    direction === oppositeDirection ? lastDirection : direction || "neutral"
+    lastDirection === oppositeDirection
+      ? lastDirection
+      : lastDirection || "neutral"
   }`;
   const SnakeHead = isCrashed ? (
     <img
