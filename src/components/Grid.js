@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import KeyListener from "./KeyListener";
 import Overlay from "./Overlay";
 import StatsBar from "./StatsBar";
+import Screen from "./Screen";
 import { getRandom } from "../utils/functions";
+import ArrowController from "./ArrowController";
 import snakeHead from "../images/snake-head.svg";
 import snakeHeadDead from "../images/snake-head-dead.svg";
 import snakeHeadNo from "../images/snake-head-no.svg";
+import snakeWebP from "../images/snake.webp";
+import snakeDeadWebP from "../images/snake-dead.webp";
 import cat from "../images/cat.svg";
 import cow from "../images/cow.svg";
 import crow from "../images/crow.svg";
@@ -21,13 +25,12 @@ import otter from "../images/otter.svg";
 import person from "../images/person.svg";
 import personMilitary from "../images/person-military.svg";
 import personRifle from "../images/person-rifle.svg";
-import ArrowController from "./ArrowController";
 
 const Grid = () => {
   // for the active direction
-  const [direction, setDirection] = useState("right");
+  const [direction, setDirection] = useState(false);
   const [oppositeDirection, setOpositeDirection] = useState(false);
-  const [lastDirection, setLastDirection] = useState(false);
+  const [lastDirection, setLastDirection] = useState("right");
   const [movesCount, setMovesCount] = useState(0);
 
   // Number of Rows and Cells per row
@@ -35,17 +38,15 @@ const Grid = () => {
   const rows = [...Array(cellAmount)];
   const cells = [...Array(cellAmount)];
 
-  // Snake's cells
-  const [snakeCells, setSnakeCells] = useState([
+  let startSnakeCells = [
     { x: 0, y: 0 },
     { x: 1, y: 0 },
     { x: 2, y: 0 },
     { x: 3, y: 0 },
     { x: 4, y: 0 },
-    { x: 5, y: 0 },
-    { x: 6, y: 0 },
-    { x: 7, y: 0 },
-  ]);
+  ];
+  // Snake's cells
+  const [snakeCells, setSnakeCells] = useState(startSnakeCells);
 
   const targets = [
     { media: locust, name: "locust", type: false, power: 10 },
@@ -82,13 +83,11 @@ const Grid = () => {
   const [showTongue, setShowTongue] = useState(false);
 
   // Game Stats
+  const [isGameStarted, setIsGameStarted] = useState(false);
   const [score, setScore] = useState(0);
   const [health, setHealth] = useState(100);
   const [stamina, setStamina] = useState(100);
   const [power, setPower] = useState(10);
-
-  // Show screens
-  const [showScreen, setShowScreen] = useState(false);
 
   // Keys for the key listener
   const keys = [
@@ -236,11 +235,7 @@ const Grid = () => {
    */
   const restartGame = () => {
     setDirection(false);
-    setSnakeCells([
-      { x: 0, y: 0 },
-      { x: 1, y: 0 },
-      { x: 2, y: 0 },
-    ]);
+    setSnakeCells(startSnakeCells);
     setMovesCount(0);
     setIsCrashed(false);
   };
@@ -320,7 +315,6 @@ const Grid = () => {
           stamina === 0
         ) {
           setIsCrashed(true);
-          setShowScreen(true);
         }
         // if inside grid limits
         if (isInLimits) {
@@ -375,7 +369,6 @@ const Grid = () => {
         } else {
           // if outside limits
           setIsCrashed(true);
-          setShowScreen(true);
         }
         // Add 1 more target if less than 3
         if (targetCells.length < 3) {
@@ -396,72 +389,111 @@ const Grid = () => {
 
   return (
     <KeyListener keys={keys}>
-      <Overlay hide={() => setShowScreen(false)} show={false}>
-        <h1>GAME OVER</h1>
-        <span
-          onClick={() => {
-            restartGame();
-            setShowScreen(false);
-          }}
-        >
-          Restart
-        </span>
+      <Overlay
+        hide={() => {
+          setIsCrashed(false);
+          setIsGameStarted(false);
+          restartGame();
+        }}
+        show={isCrashed}
+      >
+        <Screen
+          img={<img alt="snake-icon" src={snakeDeadWebP} />}
+          title="GAME OVER"
+          content={
+            <div className="screen__score">
+              <p>Final Score:</p> <span>{score}</span>
+            </div>
+          }
+          btns={[
+            {
+              label: "Main Menu",
+              onClick: () => {
+                setIsCrashed(false);
+                setIsGameStarted(false);
+                restartGame();
+              },
+            },
+          ]}
+        />
       </Overlay>
       <div className="grid">
-        <div className="grid__container">
-          <StatsBar
-            health={health}
-            power={power}
-            score={score}
-            stamina={stamina}
+        {!isGameStarted ? (
+          <Screen
+            img={<img alt="snake-icon" src={snakeWebP} />}
+            title="Sneaking"
+            content={<p className="screen__intro">Just a silly game...</p>}
+            btns={[
+              {
+                label: "Start",
+                onClick: () => {
+                  setIsGameStarted(true);
+                  restartGame();
+                },
+              },
+            ]}
           />
-          {rows.map((row, actRow) => (
-            <div key={actRow} className="grid__row">
-              {cells.map((cell, actCell) => (
-                <div
-                  key={actCell}
-                  className={`grid__cell ${getSnakeCells(
-                    actCell,
-                    actRow
-                  )} ${getCornerType(actCell, actRow)} ${
-                    isCrashed ? "--crashed" : ""
-                  }`}
-                >
-                  {/** check if is snake head */}
-                  {checkIfContact(actCell, actRow, snakeCells) &&
-                    snakeCells[snakeCells.length - 1].x === actCell &&
-                    snakeCells[snakeCells.length - 1].y === actRow &&
-                    SnakeHead}
-                  {/** check if is snake tail */}
-                  {checkIfContact(actCell, actRow, snakeCells) &&
-                    snakeCells[0].x === actCell &&
-                    snakeCells[0].y === actRow && (
-                      <div className="snake-tail"></div>
-                    )}
-                  {/** check if is target */}
-                  {checkIfContact(actCell, actRow, targetCells) && (
+        ) : (
+          <>
+            <div className="grid__container">
+              <StatsBar
+                health={health}
+                power={power}
+                score={score}
+                stamina={stamina}
+              />
+              {rows.map((row, actRow) => (
+                <div key={actRow} className="grid__row">
+                  {cells.map((cell, actCell) => (
                     <div
-                      className={`target ${
-                        getTargetType(actCell, actRow)?.target?.power > power
-                          ? "--danger"
-                          : ""
+                      key={actCell}
+                      className={`grid__cell ${getSnakeCells(
+                        actCell,
+                        actRow
+                      )} ${getCornerType(actCell, actRow)} ${
+                        isCrashed ? "--crashed" : ""
                       }`}
                     >
-                      {getTargetType(actCell, actRow) && (
-                        <img
-                          alt={getTargetType(actCell, actRow)?.target?.name}
-                          className={`target-img`}
-                          src={getTargetType(actCell, actRow)?.target?.media}
-                        />
+                      {/** check if is snake head */}
+                      {checkIfContact(actCell, actRow, snakeCells) &&
+                        snakeCells[snakeCells.length - 1].x === actCell &&
+                        snakeCells[snakeCells.length - 1].y === actRow &&
+                        SnakeHead}
+                      {/** check if is snake tail */}
+                      {checkIfContact(actCell, actRow, snakeCells) &&
+                        snakeCells[0].x === actCell &&
+                        snakeCells[0].y === actRow && (
+                          <div className="snake-tail"></div>
+                        )}
+                      {/** check if is target */}
+                      {checkIfContact(actCell, actRow, targetCells) && (
+                        <div
+                          className={`target ${
+                            getTargetType(actCell, actRow)?.target?.power >
+                            power
+                              ? "--danger"
+                              : ""
+                          }`}
+                        >
+                          {getTargetType(actCell, actRow) && (
+                            <img
+                              alt={getTargetType(actCell, actRow)?.target?.name}
+                              className={`target-img`}
+                              src={
+                                getTargetType(actCell, actRow)?.target?.media
+                              }
+                            />
+                          )}
+                        </div>
                       )}
                     </div>
-                  )}
+                  ))}
                 </div>
               ))}
             </div>
-          ))}
-        </div>
-        <ArrowController selectDirection={setDirection} />
+            <ArrowController selectDirection={setDirection} />
+          </>
+        )}
       </div>
     </KeyListener>
   );
