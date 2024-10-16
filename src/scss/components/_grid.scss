@@ -88,30 +88,58 @@
     background-color: green;
   }
   .--corner-cell {
-    background-color: $green-light-color;
+    background-color: white;
+    border: none;
+    .snake-corner {
+      width: 100%;
+      height: 100%;
+      background-color: $green-light-color;
+    }
+
     &.--right-up {
-      clip-path: polygon(100% 0, 0 100%, 100% 100%);
+      border-top: solid 1px black;
+      border-left: solid 1px black;
+      .snake-corner {
+        clip-path: polygon(100% 0, 0 100%, 100% 100%);
+      }
     }
     &.--right-down {
-      clip-path: polygon(0 0, 100% 100%, 100% 0);
+      border-left: solid 1px black;
+      .snake-corner {
+        clip-path: polygon(0 0, 100% 100%, 100% 0);
+      }
     }
     &.--left-up {
-      clip-path: polygon(96% 100%, 0 0, 0 100%);
+      border-top: solid 1px black;
+      .snake-corner {
+        clip-path: polygon(96% 100%, 0 0, 0 100%);
+      }
     }
     &.--left-down {
       clip-path: polygon(0 100%, 0 0, 100% 0);
     }
     &.--down-right {
-      clip-path: polygon(100% 100%, 0 100%, 0 0);
+      border-top: solid 1px black;
+      .snake-corner {
+        clip-path: polygon(100% 100%, 0 100%, 0 0);
+      }
     }
     &.--down-left {
-      clip-path: polygon(100% 100%, 0 100%, 100% 0);
+      border-top: solid 1px black;
+      border-left: solid 1px black;
+      .snake-corner {
+        clip-path: polygon(100% 100%, 0 100%, 100% 0);
+      }
     }
     &.--up-right {
       clip-path: polygon(0 0, 0 100%, 100% 0);
     }
     &.--up-left {
-      clip-path: polygon(0 0, 100% 100%, 100% 0);
+      border-top: solid 1px black;
+      border-left: solid 1px black;
+      .snake-corner {
+        clip-path: polygon(0 0, 100% 100%, 100% 0);
+      }
     }
   }
   .snake-head {
@@ -169,6 +197,8 @@
   }
   .target {
     overflow: hidden;
+    height: 100%;
+    width: 100%;
     &.--danger {
       background-color: red;
     }

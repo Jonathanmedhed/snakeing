@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import deadSound from "../sounds/dead.ogg";
+import eatSound from "../sounds/eat.ogg";
+import ouchSound from "../sounds/ouch.ogg";
 import KeyListener from "./KeyListener";
 import Overlay from "./Overlay";
 import StatsBar from "./StatsBar";
@@ -27,6 +30,11 @@ import personMilitary from "../images/person-military.svg";
 import personRifle from "../images/person-rifle.svg";
 
 const Grid = () => {
+  //Sounds
+  const soundDead = new Audio(deadSound);
+  const soundEat = new Audio(eatSound);
+  const soundOuch = new Audio(ouchSound);
+
   // for the active direction
   const [direction, setDirection] = useState(false);
   const [oppositeDirection, setOpositeDirection] = useState(false);
@@ -45,6 +53,7 @@ const Grid = () => {
     { x: 3, y: 0 },
     { x: 4, y: 0 },
   ];
+
   // Snake's cells
   const [snakeCells, setSnakeCells] = useState(startSnakeCells);
 
@@ -232,14 +241,34 @@ const Grid = () => {
       src={snakeHeadNo}
     />
   );
+
   /**
    * Returns game to initial states
    */
   const restartGame = () => {
     setDirection(false);
     setSnakeCells(startSnakeCells);
+    setCornerCells([]);
     setMovesCount(0);
     setIsCrashed(false);
+  };
+
+  const playAudio = (sound) => {
+    soundDead.pause();
+    soundDead.currentTime = 0;
+    soundEat.pause();
+    soundEat.currentTime = 0;
+    soundOuch.pause();
+    soundOuch.currentTime = 0;
+    if (sound === "dead") {
+      soundDead.play();
+    }
+    if (sound === "eat") {
+      soundEat.play();
+    }
+    if (sound === "ouch") {
+      soundOuch.play();
+    }
   };
 
   const onEat = (targetPower) => {
@@ -250,14 +279,24 @@ const Grid = () => {
       setStamina(staValue);
       healValue = health + 10 > 100 ? 100 : health + 10;
       setHealth(healValue);
+      playAudio("eat");
     } else {
       staValue = stamina + 1 > 100 ? 100 : stamina + 1;
       setStamina(staValue);
       healValue = health - 10 <= 0 ? 0 : health - 10;
       setHealth(healValue);
+      playAudio("ouch");
     }
     setScore(score + 10);
     setPower(power + 1);
+  };
+
+  /**
+   * Set isCrash and make sound
+   */
+  const onCrash = () => {
+    setIsCrashed(true);
+    playAudio("dead");
   };
 
   useEffect(() => {
@@ -314,9 +353,11 @@ const Grid = () => {
         // if collide with self, crash
         if (
           snakeCells.some((e) => e.x === newCellX && e.y === newCellY) ||
-          stamina === 0
+          stamina === 0 ||
+          health === 0
         ) {
-          setIsCrashed(true);
+          onCrash();
+          clearInterval(interval);
         }
         // if inside grid limits
         if (isInLimits) {
@@ -370,7 +411,8 @@ const Grid = () => {
           setMovesCount(movesCount + 1);
         } else {
           // if outside limits
-          setIsCrashed(true);
+          onCrash();
+          clearInterval(interval);
         }
         // Add 1 more target if less than 3
         if (targetCells.length < 3) {
@@ -404,7 +446,11 @@ const Grid = () => {
           title="GAME OVER"
           content={
             <div className="screen__score">
-              <p>Final Score:</p> <span>{score}</span>
+              <p>Reason:</p>{" "}
+              <span>
+                {health <= 0 ? "Health" : stamina <= 0 ? "Stamina" : "Crashed"}
+              </span>
+              <p className="--mt-1">Final Score:</p> <span>{score}</span>
             </div>
           }
           btns={[
@@ -466,7 +512,11 @@ const Grid = () => {
                         snakeCells[0].x === actCell &&
                         snakeCells[0].y === actRow && (
                           <div className="snake-tail"></div>
-                        )}
+                        )}{" "}
+                      {/** check if is snake corner */}
+                      {checkIfContact(actCell, actRow, cornerCells) && (
+                        <div className="snake-corner"></div>
+                      )}
                       {/** check if is target */}
                       {checkIfContact(actCell, actRow, targetCells) && (
                         <div

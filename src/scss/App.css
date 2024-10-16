@@ -2790,17 +2790,33 @@ Images
   background-color: green;
 }
 .grid .--corner-cell {
+  background-color: white;
+  border: none;
+}
+.grid .--corner-cell .snake-corner {
+  width: 100%;
+  height: 100%;
   background-color: #a1c432;
 }
 .grid .--corner-cell.--right-up {
+  border-top: solid 1px black;
+  border-left: solid 1px black;
+}
+.grid .--corner-cell.--right-up .snake-corner {
   -webkit-clip-path: polygon(100% 0, 0 100%, 100% 100%);
           clip-path: polygon(100% 0, 0 100%, 100% 100%);
 }
 .grid .--corner-cell.--right-down {
+  border-left: solid 1px black;
+}
+.grid .--corner-cell.--right-down .snake-corner {
   -webkit-clip-path: polygon(0 0, 100% 100%, 100% 0);
           clip-path: polygon(0 0, 100% 100%, 100% 0);
 }
 .grid .--corner-cell.--left-up {
+  border-top: solid 1px black;
+}
+.grid .--corner-cell.--left-up .snake-corner {
   -webkit-clip-path: polygon(96% 100%, 0 0, 0 100%);
           clip-path: polygon(96% 100%, 0 0, 0 100%);
 }
@@ -2809,10 +2825,17 @@ Images
           clip-path: polygon(0 100%, 0 0, 100% 0);
 }
 .grid .--corner-cell.--down-right {
+  border-top: solid 1px black;
+}
+.grid .--corner-cell.--down-right .snake-corner {
   -webkit-clip-path: polygon(100% 100%, 0 100%, 0 0);
           clip-path: polygon(100% 100%, 0 100%, 0 0);
 }
 .grid .--corner-cell.--down-left {
+  border-top: solid 1px black;
+  border-left: solid 1px black;
+}
+.grid .--corner-cell.--down-left .snake-corner {
   -webkit-clip-path: polygon(100% 100%, 0 100%, 100% 0);
           clip-path: polygon(100% 100%, 0 100%, 100% 0);
 }
@@ -2821,6 +2844,10 @@ Images
           clip-path: polygon(0 0, 0 100%, 100% 0);
 }
 .grid .--corner-cell.--up-left {
+  border-top: solid 1px black;
+  border-left: solid 1px black;
+}
+.grid .--corner-cell.--up-left .snake-corner {
   -webkit-clip-path: polygon(0 0, 100% 100%, 100% 0);
           clip-path: polygon(0 0, 100% 100%, 100% 0);
 }
@@ -2875,6 +2902,8 @@ Images
 }
 .grid .target {
   overflow: hidden;
+  height: 100%;
+  width: 100%;
 }
 .grid .target.--danger {
   background-color: red;
@@ -3056,10 +3085,12 @@ Images
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-transform: uppercase;
   font-size: 1.4rem;
   line-height: 1.6rem;
   margin-top: 1rem;
+}
+.screen__score span {
+  font-weight: bold;
 }
 .screen__btn {
   background-color: #a1c432;
