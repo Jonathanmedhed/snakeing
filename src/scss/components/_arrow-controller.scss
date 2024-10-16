@@ -1,9 +1,9 @@
 .controller {
-  width: 15rem;
+  width: 7.5rem;
   display: flex;
   flex-direction: column;
   .controller__row {
-    height: 5rem;
+    height: 2.5rem;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -21,17 +21,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 5rem;
-    width: 5rem;
+    height: 2.5rem;
+    width: 2.5rem;
     &:active {
       opacity: 0.5;
     }
   }
   .controller__arrow {
     border: solid black;
-    border-width: 0 1rem 1rem 0;
+    border-width: 0 0.5rem 0.5rem 0;
     display: inline-block;
-    padding: 1rem;
+    padding: 0.5rem;
     &.--up {
       transform: rotate(-135deg);
       -webkit-transform: rotate(-135deg);

@@ -287,8 +287,7 @@
 @media (max-width: 640px) {
   .grid {
     padding-bottom: 3rem;
-    justify-content: space-between;
-    border: solid 2px red;
+    justify-content: start;
     &__container {
       border: none;
       border-radius: 0.5vw;
@@ -311,7 +310,7 @@
       min-width: unset;
       &.--right,
       &.--neutral {
-        top: -0.75rem;
+        top: -0.7rem;
         left: 0.1rem;
       }
       &.--down {
@@ -349,6 +348,49 @@
     .target {
       .target-img {
         height: 3.1vw;
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .grid {
+    .snake-head {
+      &.--right,
+      &.--neutral {
+        top: -0.55rem;
+        left: 0.1rem;
+      }
+      &.--down {
+        top: -0.3rem;
+        left: -0.26rem;
+      }
+      &.--left {
+        top: -0.5rem;
+        left: -0.8rem;
+      }
+      &.--up {
+        top: -1.2rem;
+        left: -0.3rem;
+      }
+      &.--no-tongue {
+        &.--right,
+        &.--neutral {
+          top: -0.2rem;
+          left: -0.1rem;
+        }
+        &.--down {
+          top: -0.3rem;
+          left: -0.27rem;
+        }
+        &.--left {
+          top: -0.2rem;
+          left: -0.42rem;
+        }
+        &.--up {
+          top: -0.35rem;
+          left: -0.26rem;
+        }
       }
     }
   }

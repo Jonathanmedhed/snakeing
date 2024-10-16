@@ -251,6 +251,7 @@ const Grid = () => {
     setCornerCells([]);
     setMovesCount(0);
     setIsCrashed(false);
+    setLastDirection("right");
   };
 
   const playAudio = (sound) => {
