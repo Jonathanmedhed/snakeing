@@ -469,7 +469,7 @@ const Grid = () => {
         {!isGameStarted ? (
           <Screen
             img={<img alt="snake-icon" src={snakeWebP} />}
-            title="Sneaking"
+            title="Snakeing"
             content={<p className="screen__intro">Just a silly game...</p>}
             btns={[
               {

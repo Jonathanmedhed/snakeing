@@ -12,7 +12,7 @@ const StatsBar = ({ health, power, score, stamina }) => {
   return (
     <div className="stats">
       <div className="stats__title">
-        <h1>Snaking!</h1>
+        <h1>Snakeing!</h1>
         <img alt="snake-icon" src={snakeIcon} />
       </div>
       <div className="stats__content">
