@@ -252,6 +252,8 @@ const Grid = () => {
     setMovesCount(0);
     setIsCrashed(false);
     setLastDirection("right");
+    setStamina(100);
+    setHealth(100);
   };
 
   const playAudio = (sound) => {
@@ -426,7 +428,7 @@ const Grid = () => {
         // set last direction to compared to the next one
         setLastDirection(directionToTake);
       }
-    }, 100);
+    }, 200);
 
     //Clearing the interval
     return () => clearInterval(interval);
@@ -443,6 +445,7 @@ const Grid = () => {
         show={isCrashed}
       >
         <Screen
+          className="--game-over"
           img={<img alt="snake-icon" src={snakeDeadWebP} />}
           title="GAME OVER"
           content={
@@ -451,7 +454,7 @@ const Grid = () => {
               <span>
                 {health <= 0 ? "Health" : stamina <= 0 ? "Stamina" : "Crashed"}
               </span>
-              <p className="--mt-1">Final Score:</p> <span>{score}</span>
+              <p className="--mt-half">Final Score:</p> <span>{score}</span>
             </div>
           }
           btns={[

@@ -9,9 +9,9 @@ const Screen = ({ className, isFullScreen, img, title, content, btns }) => {
       <h1>{title}</h1>
       {content}
       {btns?.map((btn, i) => (
-        <span className="screen__btn" key={i} onClick={() => btn?.onClick()}>
+        <div className="screen__btn" key={i} onClick={() => btn?.onClick()}>
           {btn.label}
-        </span>
+        </div>
       ))}
     </div>
   );
